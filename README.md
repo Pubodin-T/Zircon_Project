@@ -1,2 +1,2 @@
-# Zircon
+# Zircon Project
  Internship at Gistda
