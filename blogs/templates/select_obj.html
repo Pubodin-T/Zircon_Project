@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="en">
+  {% load static %}
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cesium.com/downloads/cesiumjs/releases/1.93/Build/Cesium/Cesium.js"></script>
+    <link rel="icon" type="image/x-icon" href="{% static '/asset/Astro.ico' %}">
+    <link
+      href="https://cesium.com/downloads/cesiumjs/releases/1.93/Build/Cesium/Widgets/widgets.css"
+      rel="stylesheet"
+    />
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    {% comment %}
+    <link rel="stylesheet" href="{% static '/frontend/css/style.css' %}" />
+    {% endcomment %}
+    <title>Index</title>
+    <style>
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+      }
+      .container {
+        position: fixed;
+        display: flex;
+        width: 100%;
+        height: 100%;
+      }
+      #cesiumContainer {
+        display: inline-block;
+        width: 100%;
+        height: 100%;
+      }
+    </style>
+    <style>
+      .dropdown {
+        position: relative;
+        display: inline-block;
+      }
+
+      .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #2f3640;
+        width: 100%;
+        overflow: auto;
+        z-index: 1;
+        top: 40px;
+        left: 0px;
+        max-height: 200px;
+      }
+
+      .dropdown-content a {
+        color: whitesmoke;
+        padding: 4px 15px;
+        text-decoration: none;
+        display: block;
+        background-color: #2f3640;
+      }
+
+      .dropdown-content a:hover {
+        background-color: #14171c;
+      }
+
+      .norad-id {
+        padding-right: 10px;
+      }
+      .reentry_date {
+        font-size: 14px;
+        color: #ababab;
+      }
+
+      /* width */
+      ::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+        background-color: transparent;
+      }
+
+      /* Track */
+      ::-webkit-scrollbar-track {
+        background: #f1f1f1;
+        border-radius: 10px;
+        box-shadow: inset 0 0 5px grey;
+        margin-left: 5px;
+      }
+
+      /* Handle */
+      ::-webkit-scrollbar-thumb {
+        background: #888;
+        border-radius: 10px;
+      }
+
+      /* Handle on hover */
+      ::-webkit-scrollbar-thumb:hover {
+        background: #555;
+      }
+      ::-webkit-scrollbar-corner {
+        background-color: transparent;
+      }
+    </style>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <style type="text/css">
+      body {
+        margin: 0;
+      }
+
+      .search {
+        position: absolute;
+        top: 25px;
+        left: 260px;
+        height: 20px;
+        border-radius: 30px;
+        padding: 10px;
+        transform: translate(-50%, -50%);
+        background: #2f3640;
+        min-width: 300px;
+      }
+      .btn {
+        border-radius: 50%;
+        background: #2f3640;
+        color: #2471a3;
+        float: right;
+        width: 20px;
+        height: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+      }
+      .text {
+        border: none;
+        background: none;
+        outline: none;
+        float: left;
+        color: #fff;
+        font-size: 16px;
+        transition: 0.6s;
+        line-height: 20px;
+        width: 265px;
+        padding: 0px 5px;
+        margin-left: 5px;
+      }
+      ::placeholder {
+        padding-left: 0px;
+        color: rgba(128, 122, 122, 0.822);
+      }
+    </style>
+
+    <style>
+      .switch {
+        position: relative;
+        display: inline-block;
+        width: 60px;
+        height: 34px;
+        top: -9px;
+      }
+
+      .switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+      }
+
+      .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ccc;
+        -webkit-transition: 0.4s;
+        transition: 0.4s;
+      }
+
+      .slider:before {
+        position: absolute;
+        content: "";
+        height: 26px;
+        width: 26px;
+        left: 4px;
+        bottom: 3px;
+        background-color: white;
+        -webkit-transition: 0.4s;
+        transition: 0.4s;
+      }
+
+      input:checked + .slider {
+        background-color: #2196f3;
+      }
+
+      input:focus + .slider {
+        box-shadow: 0 0 1px #2196f3;
+      }
+
+      input:checked + .slider:before {
+        -webkit-transform: translateX(26px);
+        -ms-transform: translateX(26px);
+        transform: translateX(26px);
+      }
+
+      /* Rounded sliders */
+      .slider.round {
+        border: 0.5px solid black;
+        border-radius: 34px;
+      }
+
+      .slider.round:before {
+        border-radius: 50%;
+      }
+    </style>
+
+    <style>
+      #menu__toggle {
+        opacity: 0;
+      }
+      #menu__toggle:checked + .menu__btn > span {
+        transform: rotate(45deg);
+      }
+      #menu__toggle:checked + .menu__btn > span::before {
+        top: 0;
+        transform: rotate(0deg);
+      }
+      #menu__toggle:checked + .menu__btn > span::after {
+        top: 0;
+        transform: rotate(90deg);
+      }
+      #menu__toggle:checked ~ .menu__box {
+        left: 0 !important;
+      }
+      .menu__btn {
+        position: fixed;
+        top: 10px;
+        left: 20px;
+        width: 26px;
+        height: 26px;
+        cursor: pointer;
+        z-index: 1;
+        padding-top: 10px;
+      }
+      .menu__btn > span,
+      .menu__btn > span::before,
+      .menu__btn > span::after {
+        display: block;
+        position: absolute;
+        width: 100%;
+        height: 3px;
+        background-color: #616161;
+        transition-duration: 0.25s;
+      }
+      .menu__btn > span::before {
+        content: "";
+        top: -8px;
+      }
+      .menu__btn > span::after {
+        content: "";
+        top: 8px;
+      }
+      .menu__box {
+        display: block;
+        position: fixed;
+        top: 0;
+        left: -100%;
+        width: 300px;
+        height: 100%;
+        margin: 0;
+        padding: 80px 0;
+        list-style: none;
+        background-color: #eceff1;
+        opacity: 0.8;
+        box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.4);
+        transition-duration: 0.25s;
+      }
+      .menu__item {
+        display: inline-block;
+        padding: 12px 24px;
+        color: #333;
+        font-family: "Roboto", sans-serif;
+        font-size: 20px;
+        font-weight: 600;
+        text-decoration: none;
+        transition-duration: 0.25s;
+        width: 170px;
+      }
+
+      #back-buttom {
+        position: fixed;
+        left: 60px;
+        top: 4px;
+        color: #616161;
+        z-index: 99;
+      }
+
+      #infoPanel {
+        background-color: rgba(42, 42, 42, 0.8);
+        position: absolute;
+        border-radius: 5px;
+        padding: 6px;
+        top: 7px;
+        right: 123px;
+        color: #fff;
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 14px;
+        display: none;
+      }
+      #reset-btn {
+        background-color: rgba(42, 42, 42, 0.8);
+        display: block;
+        margin: 2px auto;
+        margin-top: 6px;
+        color: #fff;
+        border-radius: 5px;
+        border: 1px solid;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <div id="cesiumContainer" class="fullSize"></div>
+    </div>
+
+    <div class="search">
+      <input
+        type="text"
+        id="search-box"
+        name=""
+        placeholder="Search by ID,Name or Date"
+        class="text"
+        onkeyup="filterFunction()"
+        required
+      />
+      <i class="btn fa fa-search" onclick="routeObject()"></i>
+      <div id="list-object" class="dropdown-content">
+        {% for datas,reentry_dates in zip_datas %}
+        <a class="obj-style" href="/Object-id/{{datas.norad_id}}"
+          ><nobr class="norad-id"
+            >ID : {{datas.norad_id}} , {{datas.sat_name}} </nobr
+          ><br /><span class="reentry_date"
+            >Re-entry in : {{reentry_dates}}</span
+          ></a
+        >
+        {% endfor %}
+        <a
+          id="not-found"
+          style="display: none; text-align: center; padding: 10px 0px"
+          >Object not found!</a
+        >
+      </div>
+    </div>
+
+    <div id="infoPanel"></div>
+    <div class="hamburger-menu">
+      <input id="menu__toggle" type="checkbox" title="menu" placeholder="." />
+      <label class="menu__btn" for="menu__toggle">
+        <span></span>
+      </label>
+      <a id="back-buttom" title="Home Page" href="../"
+        ><i class="fa fa-arrow-left" style="font-size: 30px"></i
+      ></a>
+
+      <ul class="menu__box">
+        <li>
+          <span class="menu__item">Distance Measure</span>
+          <label class="switch">
+            <input
+              type="checkbox"
+              id="find-distance"
+              title="Distance Measure"
+            />
+            <span class="slider round"></span>
+          </label>
+        </li>
+        <li>
+          <span class="menu__item">Show Position</span>
+          <label class="switch">
+            <input type="checkbox" id="show-LatLong" title="Show Position" />
+            <span class="slider round"></span>
+          </label>
+        </li>
+      </ul>
+    </div>
+
+    <script>
+      var checknone = [0];
+      /* When the user clicks on the button,
+      toggle between hiding and showing the dropdown content */
+      function routeObject() {
+        if (checknone.length != 0) {
+          if (checknone.includes(document.getElementById("search-box").value)) {
+            url = "../Object-id/" + document.getElementById("search-box").value;
+            window.open(url, "_self");
+          } else {
+            url = "../Object-id/" + checknone[0];
+            window.open(url, "_self");
+          }
+        } else {
+          //console.log("Not Found")
+          $("#not-found").effect("bounce");
+        }
+      }
+
+      function filterFunction() {
+        var input, filter, ul, li, a, i;
+        input = document.getElementById("search-box");
+        filter = input.value.toUpperCase();
+        div = document.getElementById("list-object");
+        a = div.getElementsByTagName("a");
+        checknone = [];
+        for (i = 0; i < a.length - 1; i++) {
+          txtValue = a[i].textContent || a[i].innerText;
+          if (txtValue.toUpperCase().indexOf(filter) > -1) {
+            a[i].style.display = "";
+            checknone.push(txtValue.split(" ")[2]);
+          } else {
+            a[i].style.display = "none";
+          }
+        }
+        a[a.length - 1].style.display = "none";
+        //Display Object not found
+        if (checknone.length == 0) {
+          a[a.length - 1].style.display = "";
+        }
+        //console.log(checknone)
+      }
+    </script>
+    <script>
+      Cesium.Ion.defaultAccessToken =
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIwZjhmYzkzOS1jNzI3LTQyZTQtYWJhYS00NGM0MDkxZjRkNmEiLCJpZCI6OTU5MTksImlhdCI6MTY1NDA1MjA1N30.zYK1AbmYJRYuMrU9-YayuYw8j96IEKkvpOmMjGsvr_8";
+      // Set DEFAULT_VIEW
+        Cesium.Camera.DEFAULT_VIEW_RECTANGLE = Cesium.Rectangle.fromDegrees(63.076400,-31.700130,139.064604,52.234528);
+      const cesiumTerrainProvider = Cesium.createWorldTerrain({
+        requestVertexNormals: true,
+        requestWaterMask: true,
+      });
+      // Render Cesium Map
+      const viewer = new Cesium.Viewer("cesiumContainer", {
+        terrainProvider: cesiumTerrainProvider,
+        geocoder: false,
+        fullscreenButton: false,
+        navigationHelpButton: false,
+        selectionIndicator: false,
+        infoBox: false,
+      });
+      viewer.cesiumWidget.screenSpaceEventHandler.removeInputAction(Cesium.ScreenSpaceEventType.LEFT_DOUBLE_CLICK);
+      viewer.clock.shouldAnimate = true;
+      document.querySelector("#animation_pathWingButton.cesium-animation-buttonMain").style.display= "none";
+      //Disable Columbus View
+      document.querySelector("#cesiumContainer > div > div.cesium-viewer-toolbar > span.cesium-sceneModePicker-wrapper.cesium-toolbar-button > button:nth-child(4)").style.display = 'none';
+      //Disable Bug Imagery
+      $(".cesium-baseLayerPicker-item").eq(3).css("display","none");
+      $(".cesium-baseLayerPicker-item").eq(4).css("display","none");
+
+      // Edit Logo Here !!!
+      $(".cesium-widget-credits").html('<div style="display: inline;"><a href="https://demo.gistda.or.th/news_view.php?n_id=2325&lang=EN" target="_blank"><img title="Zircon" src="{% static '/asset/zircon.png' %}" style=" width: 120px; height:80px; position: fixed; bottom: 15px;" ></a></div>');
+
+
+      var entity = viewer.entities.add({
+        show : false ,
+        label: {
+          showBackground: true,
+          font: "14px monospace",
+          horizontalOrigin: Cesium.HorizontalOrigin.LEFT,
+          verticalOrigin: Cesium.VerticalOrigin.TOP,
+          pixelOffset: new Cesium.Cartesian2(15, 0),
+          heightReference: Cesium.HeightReference.CLAMP_TO_GROUND,
+          disableDepthTestDistance: Number.POSITIVE_INFINITY,
+        },
+      });
+
+      var isToggle = false
+      var count_poly = 0;
+      var count_point = 0;
+      var count_label = 0;
+      var list_poly = [];
+      var list_point = [];
+      var list_label = [];
+      const isConstant = false;
+      var activeShapePoints = [];
+      var activeShape;
+      var floatingPoint;
+      var startCartographic = new Cesium.Cartographic();
+      var endCartographic = new Cesium.Cartographic();
+      const scratch = new Cesium.Cartographic();
+      const geodesic = new Cesium.EllipsoidGeodesic();
+      var listLabel = viewer.entities.add(new Cesium.Entity());
+      var poly = viewer.entities.add(new Cesium.Entity());
+      const handler = new Cesium.ScreenSpaceEventHandler(viewer.canvas);
+
+      function showLatLong() {
+        if (!viewer.scene.pickPositionSupported) {
+          window.alert("This browser does not support pickPosition.");
+        }
+        // Mouse over the globe to see the cartographic position
+        handler.setInputAction(function (movement) {
+          let cartesian = viewer.camera.pickEllipsoid(
+            movement.endPosition,
+            viewer.scene.globe.ellipsoid
+          );
+          if (cartesian) {
+            let cartographic = Cesium.Cartographic.fromCartesian(cartesian);
+            let longitudeString = Cesium.Math.toDegrees(
+              cartographic.longitude
+            ).toFixed(4);
+            let latitudeString = Cesium.Math.toDegrees(
+              cartographic.latitude
+            ).toFixed(4);
+            entity.label.show = true;
+            entity.position = cartesian;
+            entity.label.text =
+              `Lat : ${latitudeString}\u00B0` +
+              `\nLong: ${longitudeString}\u00B0`;
+          } else {
+            entity.label.show = false;
+          }
+        }, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
+        entity.show = !entity.show;
+      }
+
+      function getLength() {
+        // Get the end position from the polyLine's callback.
+        const startPoint = activeShapePoints[activeShapePoints.length-2];
+        const endPoint = activeShapePoints[activeShapePoints.length-1];
+        startCartographic = Cesium.Cartographic.fromCartesian(startPoint);
+        endCartographic = Cesium.Cartographic.fromCartesian(endPoint);
+
+        geodesic.setEndPoints(startCartographic, endCartographic);
+        const lengthInMeters = Math.round(geodesic.surfaceDistance);
+        return `${(lengthInMeters / 1000).toFixed(2)} km`;
+      }
+
+      function getMidpoint() {
+        const startPoint = activeShapePoints[activeShapePoints.length-2];
+        // Get the end position from the polyLine's callback.
+        const endPoint = activeShapePoints[activeShapePoints.length-1];
+        startCartographic = Cesium.Cartographic.fromCartesian(startPoint);
+        endCartographic = Cesium.Cartographic.fromCartesian(endPoint);
+
+        geodesic.setEndPoints(startCartographic, endCartographic);
+        const midpointCartographic = geodesic.interpolateUsingFraction(
+          0.5,
+          scratch
+        );
+        return Cesium.Cartesian3.fromRadians(
+          midpointCartographic.longitude,
+          midpointCartographic.latitude
+        );
+      }
+
+      function terminateShape() {
+        activeShapePoints.pop();
+        drawLine(activeShapePoints);
+        viewer.entities.remove(floatingPoint);
+        viewer.entities.remove(activeShape);
+        floatingPoint = undefined;
+        activeShape = undefined;
+        activeShapePoints = [];
+        viewer.entities.remove(listLabel._children.at(-1));
+      }
+
+      function createPoint(worldPosition) {
+        const point = viewer.entities.add({
+          parent : poly,
+          id : "Point" + String(count_point),
+          position: worldPosition,
+          point: {
+            color: Cesium.Color.GREEN,
+            pixelSize: 5,
+            heightReference: Cesium.HeightReference.CLAMP_TO_GROUND,
+          },
+        });
+        count_point += 1
+        list_point.push("Point" + String(count_point))
+        return point;
+      }
+
+      function drawLine(positionData) {
+        let shape = viewer.entities.add({
+          parent : poly,
+          id : "Poly" + String(count_poly),
+          polyline: {
+            positions: positionData,
+            clampToGround: true,
+            width: 3,
+            material: Cesium.Color.RED,
+          },
+        });
+        count_poly += 1
+        list_poly.push("Poly" + String(count_poly))
+        return shape;
+      }
+
+      function removeEntity(){
+        Array.from(list_label, x => viewer.entities.removeById(x))
+        Array.from(list_point, x => viewer.entities.removeById(x))
+        Array.from(list_poly, x => viewer.entities.removeById(x))
+        list_label = []
+        list_point = []
+        list_poly = []
+        count_label = 0
+        count_point = 0
+        count_poly = 0
+      }
+
+      function findDistance(){
+        removeEntity()
+        let scene = viewer.scene;
+        if (!scene.pickPositionSupported) {
+          window.alert("This browser does not support pickPosition.");
+        }
+        handler.setInputAction(function (event) {
+          // We use `viewer.scene.pickPosition` here instead of `viewer.camera.pickEllipsoid` so that
+          // we get the correct point when mousing over terrain.
+          const earthPosition = viewer.scene.pickPosition(event.position);
+          // `earthPosition` will be undefined if our mouse is not over the globe.
+          if (Cesium.defined(earthPosition)) {
+            if (activeShapePoints.length === 0) {
+              floatingPoint = createPoint(earthPosition);
+              activeShapePoints.push(earthPosition);
+              const dynamicPositions = new Cesium.CallbackProperty(function () {
+                return activeShapePoints;
+              }, false);
+              activeShape = drawLine(dynamicPositions);
+            }
+            activeShapePoints.push(earthPosition);
+            createPoint(earthPosition);
+            count_label += 1
+            list_label.push("Label" + String(count_label))
+            viewer.entities.add({
+              parent : listLabel,
+              id : "Label" + String(count_label),
+              label: {
+                showBackground: true,
+                font: "14px monospace",
+                horizontalOrigin: Cesium.HorizontalOrigin.LEFT,
+                verticalOrigin: Cesium.VerticalOrigin.TOP,
+                heightReference: Cesium.HeightReference.CLAMP_TO_GROUND,
+                disableDepthTestDistance: Number.POSITIVE_INFINITY,
+              },
+            });
+          }
+        }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
+        handler.setInputAction(function (event) {
+          if (Cesium.defined(floatingPoint)) {
+            const newPosition = viewer.scene.pickPosition(event.endPosition);
+            if (Cesium.defined(newPosition)) {
+              floatingPoint.position.setValue(newPosition);
+              activeShapePoints.pop();
+              activeShapePoints.push(newPosition);
+              listLabel._children.at(-1).position = getMidpoint()
+              listLabel._children.at(-1).label.text = getLength()
+            }
+          }
+        }, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
+        // Redraw the shape so it's not dynamic and remove the dynamic shape.
+        handler.setInputAction(function (event) {
+          terminateShape();
+        }, Cesium.ScreenSpaceEventType.RIGHT_CLICK);
+      }
+
+      $(document).ready(function () {
+        $("#search-box").focusin(function () {
+          $(".search").css({ "border-radius": "20px 20px 0px 0px" });
+          $(".dropdown-content").css({ "border-radius": "0px 0px 10px 10px" });
+          $("#list-object").slideDown(500);
+          if(isToggle == true){
+            $('#menu__toggle').trigger( "click" );
+          }
+          isToggle = false
+        });
+        $("#search-box").focusout(function () {
+          setTimeout(function () {
+            $("#list-object").slideUp(290);
+          }, 200);
+
+          setTimeout(function () {
+            $(".search").css({ "border-radius": "30px" });
+          }, 490);
+        });
+        $("#search-box").on("keyup", function (e) {
+          if (e.key === "Enter" || e.keyCode === 13) {
+            routeObject();
+          }
+        });
+        $("#find-distance").click(function () {
+          if ($('#find-distance').is(':checked') == true){
+            findDistance();
+            $('#infoPanel').html('<span>Left click to add a point.</span><br><span>Right click to stop mark.</span><br><button type="button" id="reset-btn" >Reset</button>')
+            $('#infoPanel').css("display","block")
+          }
+          else{
+            removeEntity()
+            $('#infoPanel').css("display","none")
+            handler.removeInputAction(Cesium.ScreenSpaceEventType.LEFT_CLICK)
+
+          }
+        });
+        $("#show-LatLong").click(function () {
+          showLatLong();
+        });
+        $("#infoPanel").last().click(function () {
+          removeEntity();
+        });
+        $('#menu__toggle').click(function() {
+          if(isToggle == false){
+            $('#back-buttom').animate({left: '240px'},"fast");
+            $('.search').animate({left: '465px'},"fast");
+          }
+          else{
+            $('#back-buttom').animate({left: '60px'},"fast");
+            $('.search').animate({left: '260px'},"fast");
+          }
+          isToggle = !isToggle
+        });
+      });
+    </script>
+  </body>
+</html>

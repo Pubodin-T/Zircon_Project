@@ -1,0 +1,1058 @@
+<html>
+
+<head>
+    <title>HOME</title>
+    <link rel="icon" type="image/png"
+        href="https://raw.githubusercontent.com/Apizz789/GISTDA_INTERNSHIP/main/PIC/astrolablogo.png">
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <script language=JavaScript>
+
+        var message = "Dont Do That !! :) ";
+
+        function clickIE4() {
+            if (event.button == 2) {
+                alert(message);
+                return false;
+            }
+        }
+
+        function clickNS4(e) {
+            if (document.layers || document.getElementById && !document.all) {
+                if (e.which == 2 || e.which == 3) {
+                    alert(message);
+                    return false;
+                }
+            }
+        }
+
+        if (document.layers) {
+            document.captureEvents(Event.MOUSEDOWN);
+            document.onmousedown = clickNS4;
+        }
+        else if (document.all && !document.getElementById) {
+            document.onmousedown = clickIE4;
+        }
+
+        document.oncontextmenu = new Function("alert(message);return false")
+
+
+    </script>
+    <script language="JavaScript1.2">
+        //Disable select-text script (IE4 , NS6 )
+        function disableselect(e) {
+            return false
+        }
+        function reEnable() {
+            return true
+        }
+        //if IE4
+        document.onselectstart = new Function("return false")
+        //if NS6
+        if (window.sidebar) {
+            document.onmousedown = disableselect
+            document.onclick = reEnable
+        }
+        document.ondragstart = function () { return false; };
+    </script>
+
+</head>
+
+
+<style>
+    body {
+        /* background: radial-gradient(circle at bottom, rgb(18, 32, 219) 0, black 30%); */
+        /* background-image: linear-gradient(90deg, rgba(25, 136, 247, 1) 0%, rgba(247, 25, 136, 1) 100%); */
+        background-color: #000000;
+        background-image: linear-gradient(90deg, rgb(53, 203, 55) 0%, rgba(24, 161, 247, 1) 100%);
+        height: 100vh;
+        width: 100vw;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+    }
+
+    * {
+        font-family: monospace;
+    }
+
+    h1,
+    h2,
+    h3 {
+        /* background-color: #ffffff; */
+        /* border-radius: 30px; */
+        color: #ffffff;
+        text-align: center;
+
+    }
+
+    .logoimg {
+        width: 300px;
+        height: 125px;
+        /* position: absolute; */
+
+        /* transform: translate(-50%, -50%);
+        padding: 12px 48px; */
+        /* background-color: #000000; */
+        border-radius: 20px;
+    }
+
+    .Xletter {
+        position: absolute;
+        top: 45%;
+        left: 40%;
+        font-size: 30px;
+
+
+    }
+
+    .logoimg1 {
+        width: 300px;
+        height: 100px;
+        position: absolute;
+        /* top: 520%; */
+        /* left: 40%; */
+        /* transform: translate(-50%, -50%); */
+        padding: 12px 48px;
+        /* background-color: #000000; */
+        border-radius: 20px;
+        animation: slide-up 5s;
+
+
+    }
+
+    .logoimg2 {
+        width: 300px;
+        height: 125px;
+        position: absolute;
+        /* top: 50%; */
+        /* left: 60%; */
+        /* transform: translate(-50%, -50%); */
+        padding: 12px 48px;
+        /* background-color: #000000; */
+        border-radius: 20px;
+        animation: slide-up 5s;
+
+
+    }
+
+
+    .slideUp {
+
+        animation: slide-up 0.9s cubic-bezier(0.65, 0, 0.35, 1) both;
+    }
+
+    @keyframes slide-up {
+        0% {
+            opacity: 0.0;
+            transform: translateY(500px);
+        }
+
+        100% {
+            opacity: 1;
+            transform: translateY(200px);
+        }
+
+    }
+
+    .galaxy-background {
+        z-index: -2;
+    }
+
+
+    .space {
+        background: rgba(115, 184, 209, 0.823) center / 200px 200px round;
+        border: 1px dotted rgb(255, 255, 255);
+        right: 0;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        position: absolute;
+    }
+
+    .stars1 {
+        animation: space 10s ease-in-out infinite;
+        background-image:
+            radial-gradient(1px 1px at 25px 5px, white, rgba(255, 255, 255, 0)),
+            radial-gradient(1px 1px at 50px 25px, white, rgba(255, 255, 255, 0)),
+            radial-gradient(1px 1px at 125px 20px, white, rgba(255, 255, 255, 0)),
+            radial-gradient(1.5px 1.5px at 50px 75px, white, rgba(255, 255, 255, 0)),
+            radial-gradient(2px 2px at 15px 125px, white, rgba(255, 255, 255, 0)),
+            radial-gradient(2.5px 2.5px at 110px 80px, white, rgba(255, 255, 255, 0)),
+            radial-gradient(1px 1px at 75px 125px, white, rgba(255, 255, 255, 0)),
+            radial-gradient(1px 1px at 100px 75px, white, rgba(255, 255, 255, 0)),
+            radial-gradient(1.5px 1.5px at 199px 100px, white, rgba(255, 255, 255, 0)),
+            radial-gradient(2px 2px at 20px 50px, white, rgba(255, 255, 255, 0)),
+            radial-gradient(2.5px 2.5px at 100px 5px, white, rgba(255, 255, 255, 0)),
+            radial-gradient(2.5px 2.5px at 5px 5px, white, rgba(255, 255, 255, 0));
+    }
+
+    .stars2 {
+        animation: space 50s ease-in-out infinite;
+        background-image:
+            radial-gradient(1px 1px at 75px 125px, white, rgba(255, 255, 255, 0)),
+            radial-gradient(1px 1px at 100px 75px, white, rgba(255, 255, 255, 0)),
+            radial-gradient(1.5px 1.5px at 199px 100px, white, rgba(255, 255, 255, 0)),
+            radial-gradient(2px 2px at 20px 50px, white, rgba(255, 255, 255, 0)),
+            radial-gradient(2.5px 2.5px at 100px 5px, white, rgba(255, 255, 255, 0)),
+            radial-gradient(2.5px 2.5px at 5px 5px, white, rgba(255, 255, 255, 0));
+    }
+
+    .stars3 {
+        animation: space 70s ease-in-out infinite;
+        background-image:
+            radial-gradient(1px 1px at 10px 10px, white, rgba(255, 255, 255, 0)),
+            radial-gradient(1px 1px at 150px 150px, white, rgba(255, 255, 255, 0)),
+            radial-gradient(1.5px 1.5px at 60px 170px, white, rgba(255, 255, 255, 0)),
+            radial-gradient(1.5px 1.5px at 175px 180px, white, rgba(255, 255, 255, 0)),
+            radial-gradient(2px 2px at 195px 95px, white, rgba(255, 255, 255, 0)),
+            radial-gradient(2.5px 2.5px at 95px 145px, white, rgba(255, 255, 255, 0));
+    }
+
+    .stars4 {
+        animation: space 30s ease-in-out infinite;
+        background-image:
+            radial-gradient(1px 1px at 10px 10px, white, rgba(255, 255, 255, 0)),
+            radial-gradient(1px 1px at 150px 150px, white, rgba(255, 255, 255, 0)),
+            radial-gradient(1.5px 1.5px at 60px 170px, white, rgba(255, 255, 255, 0)),
+            radial-gradient(1.5px 1.5px at 175px 180px, white, rgba(255, 255, 255, 0)),
+            radial-gradient(2px 2px at 195px 95px, white, rgba(255, 255, 255, 0)),
+            radial-gradient(2.5px 2.5px at 95px 145px, white, rgba(255, 255, 255, 0));
+    }
+
+    @keyframes space {
+        40% {
+            opacity: 0.75;
+        }
+
+        50% {
+            opacity: 0.25;
+        }
+
+        60% {
+            opacity: 0.75;
+        }
+
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+
+    .background-palalax {
+        z-index: -1;
+        height: 500px;
+        width: auto;
+        /* position: fixed; */
+        bottom: 0;
+        border-radius: 20px;
+
+        background-color: hsla(200, 40%, 30%, .4);
+        background-image:
+            url('https://78.media.tumblr.com/cae86e76225a25b17332dfc9cf8b1121/tumblr_p7n8kqHMuD1uy4lhuo1_540.png'),
+            url('https://78.media.tumblr.com/66445d34fe560351d474af69ef3f2fb0/tumblr_p7n908E1Jb1uy4lhuo1_1280.png'),
+            url('https://78.media.tumblr.com/8cd0a12b7d9d5ba2c7d26f42c25de99f/tumblr_p7n8kqHMuD1uy4lhuo2_1280.png'),
+            url('https://78.media.tumblr.com/5ecb41b654f4e8878f59445b948ede50/tumblr_p7n8on19cV1uy4lhuo1_1280.png'),
+            url('https://78.media.tumblr.com/28bd9a2522fbf8981d680317ccbf4282/tumblr_p7n8kqHMuD1uy4lhuo3_1280.png');
+        background-repeat: repeat-x;
+        background-position:
+            0 20%,
+            0 100%,
+            0 50%,
+            0 100%,
+            0 0;
+        background-size:
+            2500px,
+            800px,
+            500px 200px,
+            1000px,
+            400px 260px;
+        animation: 50s para infinite linear;
+    }
+
+    @keyframes para {
+        100% {
+            background-position:
+                -5000px 20%,
+                -800px 95%,
+                500px 50%,
+                1000px 100%,
+                400px 0;
+        }
+    }
+
+    .background-color-overlay {
+        animation: slide 3s ease-in-out infinite alternate;
+        background-image: linear-gradient(-60deg, #6c3 50%, #09f 50%);
+        bottom: 0;
+        left: -50%;
+        opacity: 0.1;
+        position: fixed;
+        right: -50%;
+        top: 0;
+        z-index: -2;
+    }
+
+    .background-path-2 {
+        animation-direction: alternate-reverse;
+        animation-duration: 4s;
+    }
+
+    .background-path-3 {
+        animation-duration: 5s;
+    }
+
+    .content {
+        /* background-color: rgba(255, 255, 255, .8); */
+        border-radius: .25em;
+        box-shadow: 0 0 .25em rgba(254, 254, 254, 0.25);
+        box-sizing: border-box;
+        left: 50%;
+        padding: 10vmin;
+        position: fixed;
+
+        text-align: center;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        border-radius: 30px;
+    }
+
+
+    @keyframes slide {
+        0% {
+            transform: translateX(-25%);
+        }
+
+        100% {
+            transform: translateX(25%);
+        }
+    }
+
+    header {
+        background-color: rgba(33, 33, 33, 0.9);
+        color: #ffffff;
+        display: block;
+        font: 14px/1.3 Arial, sans-serif;
+        height: 50px;
+        position: relative;
+        z-index: -12;
+    }
+
+    .showtext {
+        color: #ffffff;
+    }
+
+    h2 {
+        margin-top: 30px;
+        text-align: center;
+    }
+
+    header h2 {
+        font-size: 22px;
+        margin: 0 auto;
+        padding: 10px 0;
+        width: 80%;
+        text-align: center;
+    }
+
+    header a,
+    a:visited {
+        text-decoration: none;
+        color: #fcfcfc;
+    }
+
+    @keyframes move-twink-back {
+        from {
+            background-position: 0 0;
+        }
+
+        to {
+            background-position: -10000px 5000px;
+        }
+    }
+
+    @-webkit-keyframes move-twink-back {
+        from {
+            background-position: 0 0;
+        }
+
+        to {
+            background-position: -10000px 5000px;
+        }
+    }
+
+    @-moz-keyframes move-twink-back {
+        from {
+            background-position: 0 0;
+        }
+
+        to {
+            background-position: -10000px 5000px;
+        }
+    }
+
+    @-ms-keyframes move-twink-back {
+        from {
+            background-position: 0 0;
+        }
+
+        to {
+            background-position: -10000px 5000px;
+        }
+    }
+
+    @keyframes move-clouds-right {
+        from {
+            background-position: 10000px 10000px;
+        }
+
+        to {
+            background-position: 0px 10000px;
+        }
+    }
+
+    @-webkit-keyframes move-clouds-right {
+        from {
+            background-position: 10000px 10000px;
+        }
+
+        to {
+            background-position: 0px 10000px;
+        }
+    }
+
+    @-moz-keyframes move-clouds-right {
+        from {
+            background-position: 10000px 10000px;
+        }
+
+        to {
+            background-position: 0px 10000px;
+        }
+    }
+
+    @-ms-keyframes move-clouds-right {
+        from {
+            background-position: 10000px 10000px;
+        }
+
+        to {
+            background-position: 0px 10000px;
+        }
+    }
+
+    @keyframes move-clouds-right {
+        from {
+            background-position: 10000px 10000px;
+        }
+
+        to {
+            background-position: 0px 10000px;
+        }
+    }
+
+    @keyframes move-clouds-left {
+        from {
+            background-position: 0px 10000px;
+        }
+
+        to {
+            background-position: 10000px 10000px;
+        }
+    }
+
+    @-webkit-keyframes move-clouds-left {
+        from {
+            background-position: 0px 10000px;
+        }
+
+        to {
+            background-position: 10000px 10000px;
+        }
+    }
+
+    @-moz-keyframes move-clouds-left {
+        from {
+            background-position: 0px 10000px;
+        }
+
+        to {
+            background-position: 10000px 10000px;
+        }
+    }
+
+    @-ms-keyframes move-clouds-left {
+        from {
+            background-position: 0px 10000px;
+        }
+
+        to {
+            background-position: 10000px 10000px;
+        }
+    }
+
+    @keyframes move-clouds-left {
+        from {
+            background-position: 0px 10000px;
+        }
+
+        to {
+            background-position: 10000px 10000px;
+        }
+    }
+
+
+
+    .stars,
+    .twinkling {
+        position: absolute;
+        width: 100%;
+        height: 200%;
+        display: block;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+
+    }
+
+    .stars {
+        background: #000000 url(https://raw.githubusercontent.com/Apizz789/GISTDA_INTERNSHIP/main/PIC/stars_space_background.png) repeat top center;
+        z-index: -15;
+    }
+
+    .twinkling {
+        background: transparent url(https://raw.githubusercontent.com/Apizz789/GISTDA_INTERNSHIP/main/PIC/twinkling_background.png) repeat top center;
+        z-index: -14;
+
+        -moz-animation: move-twink-back 200s linear infinite;
+        -ms-animation: move-twink-back 200s linear infinite;
+        -o-animation: move-twink-back 200s linear infinite;
+        -webkit-animation: move-twink-back 200s linear infinite;
+        animation: move-twink-back 200s linear infinite;
+    }
+
+    .clouds {
+        position: absolute;
+        display: block;
+        width: 100%;
+        height: 200%;
+        top: -50;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        opacity: 0.2;
+        background: transparent url(https://raw.githubusercontent.com/Apizz789/GISTDA_INTERNSHIP/main/PIC/clouds_background3.png) repeat top center;
+        z-index: -13;
+        -moz-animation: move-clouds-right 200s linear infinite;
+        -ms-animation: move-clouds-right 200s linear infinite;
+        -o-animation: move-clouds-right 200s linear infinite;
+        -webkit-animation: move-clouds-right 200s linear infinite;
+        animation: move-clouds-right 200s linear infinite;
+
+    }
+
+    .clouds2 {
+        position: absolute;
+        display: block;
+        width: 100%;
+        height: 100%;
+        top: 100;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        opacity: 0.3;
+        background: transparent url(https://raw.githubusercontent.com/Apizz789/GISTDA_INTERNSHIP/main/PIC/clouds_background10.png) repeat top center;
+        z-index: -12;
+        -moz-animation: move-clouds-left 200s linear infinite;
+        -ms-animation: move-clouds-left 200s linear infinite;
+        -o-animation: move-clouds-left 200s linear infinite;
+        -webkit-animation: move-clouds-left 200s linear infinite;
+        animation: move-clouds-left 200s linear infinite;
+    }
+
+    .clouds3 {
+        position: absolute;
+        display: block;
+        width: 100%;
+        height: 100%;
+        top: 30;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        opacity: 0.3;
+        background: transparent url(https://raw.githubusercontent.com/Apizz789/GISTDA_INTERNSHIP/main/PIC/clouds_background2.png) repeat top center;
+        z-index: -11;
+        -moz-animation: move-clouds-right 200s linear infinite;
+        -ms-animation: move-clouds-right 200s linear infinite;
+        -o-animation: move-clouds-right 200s linear infinite;
+        -webkit-animation: move-clouds-right 200s linear infinite;
+        animation: move-clouds-right 500s linear infinite;
+
+    }
+
+
+    .fill:hover,
+    .fill:focus {
+        box-shadow: inset 0 0 0 2em var(--hover);
+    }
+
+    .pulse:hover,
+    .pulse:focus {
+        animation: pulse 1s;
+        box-shadow: 0 0 0 2em transparent;
+    }
+
+    @keyframes pulse {
+        0% {
+            box-shadow: 0 0 0 0 var(--hover);
+        }
+    }
+
+    .close:hover,
+    .close:focus {
+        box-shadow: inset -3.5em 0 0 0 var(--hover), inset 3.5em 0 0 0 var(--hover);
+    }
+
+    .raise:hover,
+    .raise :focus,
+    .raise1:hover,
+    .raise1 :focus,
+    .raise2:hover,
+    .raise2 :focus,
+    .raise3:hover,
+    .raise3 :focus,
+    .raise4:hover,
+    .raise4 :focus,
+    .raise5:hover,
+    .raise5 :focus,
+    .raise6:hover,
+    .raise6 :focus {
+        box-shadow: 0 0.5em 0.5em -0.4em var(--hover);
+        transform: translateY(-0.50em);
+    }
+
+
+
+    .up:hover,
+    .up:focus {
+        box-shadow: inset 0 -3.25em 0 0 var(--hover);
+    }
+
+    .slide:hover,
+    .slide:focus {
+        box-shadow: inset 6.5em 0 0 0 var(--hover);
+    }
+
+    .offset {
+        box-shadow: 0.3em 0.3em 0 0 var(--color), inset 0.3em 0.3em 0 0 var(--color);
+    }
+
+    .offset:hover,
+    .offset:focus {
+        box-shadow: 0 0 0 0 var(--hover), inset 6em 3.5em 0 0 var(--hover);
+    }
+
+    .raise1 {
+        --color: #a972cb;
+        --hover: #cb72aa;
+    }
+
+    .raise2 {
+        --color: #ef6eae;
+        --hover: #ef8f6e;
+    }
+
+    .raise3 {
+        --color: #ff7f82;
+        --hover: #ffdc7f;
+    }
+
+    .raise {
+        --color: #ffa260;
+        --hover: #e5ff60;
+    }
+
+    .raise4 {
+        --color: #e4cb58;
+        --hover: #94e458;
+    }
+
+    .raise5 {
+        --color: #8fc866;
+        --hover: #66c887;
+    }
+
+    .raise6 {
+        --color: #19bc8b;
+        --hover: #1973bc;
+    }
+
+    button {
+        color: var(--color);
+        transition: 0.25s;
+    }
+
+    button:hover,
+    button:focus {
+        border-color: var(--hover);
+        color: #fff;
+    }
+
+    button {
+        background: none;
+        border: 0.5px solid;
+        border-radius: 30px;
+        font: inherit;
+        line-height: 1;
+        margin: 0.5em;
+        padding: 1em 2em;
+    }
+
+    code {
+        color: #e4cb58;
+        font: inherit;
+    }
+
+
+    body {
+        background: black;
+        font-family: 'Poppins', sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+
+
+
+    .btn-shine {
+        position: absolute;
+        /* top: 50%; */
+        /* left: 50%; */
+        transform: translate(-50%, -50%);
+        padding: 12px 48px;
+        color: #19bc8b;
+        background: linear-gradient(to right, #4d4d4d 0, white 10%, #4d4d4d 20%);
+        background-position: 0;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        animation: shine 5s infinite linear;
+        animation-fill-mode: forwards;
+        -webkit-text-size-adjust: none;
+        font-weight: 600;
+        font-size: 20px;
+        text-decoration: none;
+        white-space: nowrap;
+    }
+
+    .btn-shine:hover,
+    .btn-shine:focus {
+        box-shadow: 0 0.5em 0.5em -0.4em var(--hover);
+        transform: translate(-50%, -60%);
+    }
+
+
+    .btn-shine {
+        --color: #19bc8b;
+        --hover: #1973bc;
+    }
+
+    @keyframes shine {
+        0% {
+            background-position: 0
+        }
+
+        30% {
+            background-position: 150px
+        }
+
+        60% {
+            background-position: 250px
+        }
+
+        100% {
+            background-position: 250px
+        }
+    }
+
+
+    /* .frame-befHome{
+
+    } */
+
+
+    .frame0,
+    .frame1,
+    .frame2,
+    .frame3,
+    .frame4,
+    .frame5,
+    .frame6 {
+        position: relative;
+        display: none
+    }
+    button{
+        width: 200px;
+    }
+</style>
+
+<body>
+
+
+    <div class="stars"></div>
+    <div class="twinkling"></div>
+    <div class="clouds"></div>
+    <div class="clouds2"></div>
+    <div class="clouds3"></div>
+
+
+    <div class="frame-befHome">
+        <div class="slideUp">
+            <center>
+
+                <img src="https://raw.githubusercontent.com/Apizz789/GISTDA_INTERNSHIP/main/logo-footer.png"
+                    alt="HTML tutorial" class=" " style="width: 150px;
+                height: 50px; display: block; margin-left: auto; margin-right: auto;">
+
+
+                <img src="https://raw.githubusercontent.com/Apizz789/GISTDA_INTERNSHIP/main/PIC/AstroLab-BW.png"
+                    alt="HTML tutorial" class=" " style="width: 700; height: auto; display: block;
+                margin-left: auto;
+                margin-right: auto; ">
+
+
+                <button class=" btn-shine" style="width: 300px;" onclick="show0()" target="_blank"> Get Ready to access</button>
+
+            </center>
+
+
+        </div>
+
+    </div>
+
+    <div class="frame0 slide-up">
+
+        <div class="content slide-up">
+
+            <center><img src="https://raw.githubusercontent.com/Apizz789/GISTDA_INTERNSHIP/main/logo-footer.png"
+                    alt="HTML tutorial" class="logoimg"></center>
+
+            <h1>[SIRACE]</h1>
+            <p class="showtext">(The Simulation website for the risk area when the parts of rocket crashes to Earth)
+            </p>
+            <br>
+
+            <div class="buttons ">
+                <button class="raise3" style="width: 200px;" onclick="show4()">Simulation</button>
+                <button class="raise4" style="width: 200px;" onClick="location.href='../TableCoord'">TLE Coordinates</button>
+
+
+            </div>
+        </div>
+    </div>
+
+
+    <div class="frame1" style="position: absolute;">
+        <div class="content slide-up">
+
+            <h1>What Is SIRACE</h1>
+            <h2 style="text-align:justify;"> &nbsp&nbsp&nbsp SIRACE is short for The Simulation website for the risk
+                area when the parts of rocket crashes to Earth.</h2>
+            <h2 style="text-align:justify;"> &nbsp&nbsp&nbspSIRACE has developed and designed with the idea from Air
+                Hazard Prevention and Alarm System To simulate the fall back to Earth of a piece of material from a
+                rocket. In the SIRACE , it has been designed to be able to use easily and see the picture through an 3D
+                animation format mainly using Cesium Js on Web browser. In SIRACE there is a rocket launch station that
+                references real world locations. And we need information about the fall coordinates of the part rocket
+                from you. That's all , then can the cool model be successfully created.</h2><br>
+            <hr>
+            <button class="raise" onclick="show5()">
+                < Back to Simulation</button>
+                    <button class="raise" onclick="show2()">How To Use SIRACE > </button><br>
+
+
+        </div>
+
+    </div>
+
+    <div class="frame2">
+        <div class="content ">
+
+            <h1>How To Use</h1>
+            <h2 style="text-align:justify;"> SIRACE it's simply and easy to use.<br>
+                1. You MUST to choose a rocket launch station.<br>
+                2. You MUST enter your geographic coordinates, in our designated formats such as latitude-longitude,
+                MGRS and UTM coordinate.</h2><br>
+            <hr>
+            <button class="raise" onclick="show1()">
+                < Back to What Is SIRACE</button>
+                    <button class="raise" onClick="location.href='../map'"> Simulation > </button><br>
+
+        </div>
+
+    </div>
+
+
+    <div class=" frame3">
+        <div class="content ">
+
+            <h1>How To Use</h1>
+            <h2 style="text-align:justify;"> SIRACE it's simply and easy to use.<br>
+                1. You MUST to choose a rocket launch station.<br>
+                2. You MUST enter your geographic coordinates, in our designated formats such as
+                latitude-longitude,
+                MGRS and UTM coordinate.</h2><br>
+            <hr>
+            <button class="raise" onclick="show0()">
+                < Back to Homepage</button>
+                    <button class="raise" onclick="show4()"> Simulation > </button><br>
+        </div>
+
+    </div>
+
+
+    <div class="frame4">
+        <div class="content">
+
+            <h1>Please Choose Simulation</h1>
+
+            <button class="raise5" onclick="location.href='../select-object'">ZIRCON Simulation > </button>
+            <button class="raise4" onclick="show5()">SIRACE Simulation > </button>
+            <button class="raise6" onclick="show6()">UTM Simulation > </button><br>
+            <hr>
+            <button class="raise" onclick="show0()">
+                < Back to Homepage</button>
+
+        </div>
+
+    </div>
+
+
+
+
+    <div class="frame5">
+        <div class="content">
+
+            <h1>SIRACE Simulation</h1>
+
+            <button class="raise1" onclick="show1()">What is SIRACE ?</button>
+            <button class="raise2" onclick="show2()">How To Use SIRACE</button>
+            <button class="raise3" onClick="location.href='../map'"> Simulation </button><br>
+            <hr>
+            <button class="raise" onclick="show4()">
+                < Back to Simulation</button>
+
+        </div>
+
+    </div>
+
+
+    <div class="frame6">
+        <div class="content">
+
+            <h1>UTM Simulation</h1>
+
+            <button class="raise5" onClick="location.href='../UTM1'">UTM 1 </button>
+            <button class="raise5" onClick="location.href='../UTM2'">UTM 2 </button><br>
+            <hr>
+            <button class="raise" onclick="show4()">
+                < Back to Simulation</button>
+
+        </div>
+
+    </div>
+
+
+
+
+
+
+</body>
+
+<script>
+    function show0() {
+
+        $('.frame-befHome').fadeOut(500);
+        $('.frame0').fadeIn(1000);
+        $('.frame1').fadeOut(500);
+        $('.frame2').fadeOut(500);
+        $('.frame3').fadeOut(500);
+        $('.frame4').fadeOut(500);
+        $('.frame5').fadeOut(500);
+        $('.frame6').fadeOut(500);
+
+
+    };
+
+    function show1() {
+
+        $('.frame0').fadeOut(500);
+        $('.frame1').fadeIn(1000);
+        $('.frame2').fadeOut(500);
+        $('.frame3').fadeOut(500);
+        $('.frame4').fadeOut(500);
+        $('.frame5').fadeOut(500);
+        $('.frame6').fadeOut(500);
+
+    };
+
+    function show2() {
+
+        $('.frame0').fadeOut(500);
+        $('.frame1').fadeOut(500);
+        $('.frame2').fadeIn(1000);
+        $('.frame3').fadeOut(500);
+        $('.frame4').fadeOut(500);
+        $('.frame5').fadeOut(500);
+        $('.frame6').fadeOut(500);
+
+    };
+
+    function show3() {
+
+        $('.frame0').fadeOut(500);
+        $('.frame1').fadeOut(500);
+        $('.frame2').fadeOut(500);
+        $('.frame3').fadeIn(1000);
+        $('.frame4').fadeOut(500);
+        $('.frame5').fadeOut(500);
+        $('.frame6').fadeOut(500);
+
+    };
+
+    function show4() {
+
+        $('.frame0').fadeOut(500);
+        $('.frame1').fadeOut(500);
+        $('.frame2').fadeOut(500);
+        $('.frame3').fadeOut(500);
+        $('.frame4').fadeIn(1000);
+        $('.frame5').fadeOut(500);
+        $('.frame6').fadeOut(500);
+
+    };
+
+    function show5() {
+
+        $('.frame0').fadeOut(500);
+        $('.frame1').fadeOut(500);
+        $('.frame2').fadeOut(500);
+        $('.frame3').fadeOut(500);
+        $('.frame4').fadeOut(500);
+        $('.frame5').fadeIn(1000);
+        $('.frame6').fadeOut(500);
+
+    };
+    function show6() {
+
+$('.frame0').fadeOut(500);
+$('.frame1').fadeOut(500);
+$('.frame2').fadeOut(500);
+$('.frame3').fadeOut(500);
+$('.frame4').fadeOut(500);
+$('.frame5').fadeOut(500);
+$('.frame6').fadeIn(1000);
+
+};
+
+</script>
+
+
+</html>

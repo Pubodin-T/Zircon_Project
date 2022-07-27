@@ -1,0 +1,1521 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>ARTEMIS_GISTDA</title>
+    <link
+      rel="icon"
+      type="image/png"
+      href="https://raw.githubusercontent.com/Apizz789/GISTDA_INTERNSHIP/main/PIC/UTM.png"
+    />
+    <!-- <link rel="stylesheet" href="style.css"> -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"
+    />
+
+    <script src="https://cesium.com/downloads/cesiumjs/releases/1.82/Build/Cesium/Cesium.js"></script>
+    <link
+      href="https://cesium.com/downloads/cesiumjs/releases/1.82/Build/Cesium/Widgets/widgets.css"
+      rel="stylesheet"
+    />
+    <script src="https://sandcastle.cesium.com/Sandcastle-header.js"></script>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Changa:wght@300&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <style>
+    @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap");
+
+
+    p {
+      font-family: "Changa", sans-serif;
+    }
+    body {
+      margin: 50;
+      padding: 0;
+      font-family: "Montserrat", sans-serif;
+      background-color: #212c3b;
+    }
+
+    header {
+      background-color: #141b25;
+      border-radius: 20px;
+    }
+
+    .intoolbar {
+      margin-top: 10px;
+    }
+
+    .main-nav {
+      height: 90px;
+      margin-bottom: 10px;
+    }
+
+    .logo {
+      color: white;
+      line-height: 90px;
+      font-size: 30px;
+      font-weight: bold;
+      text-decoration: none;
+      margin-left: 30px;
+      font-family: "AstroSpace", sans-serif;
+    }
+
+    .navlinks {
+      list-style: none;
+      float: right;
+      line-height: 90px;
+      margin: 0;
+      padding: 0;
+    }
+
+    .navlinks li {
+      display: inline-block;
+      margin: 0px 20px;
+    }
+
+    .navlinks li a {
+      color: white;
+      text-decoration: none;
+      font-size: 18px;
+      transition: all 0.3s linear 0s;
+      text-transform: uppercase;
+    }
+
+    .navlinks li a:hover {
+      color: #7ebcb9;
+      padding-bottom: 7px;
+      border-bottom: 2px solid #7ebcb9;
+    }
+
+    li a.contact {
+      background-color: #00adb5;
+      padding: 9px 20px;
+      border-radius: 50px;
+      transition: all 0.3s ease 0s;
+      border-bottom: none;
+    }
+
+    li a.contact:hover {
+      background-color: #047e85;
+      color: white;
+      border-bottom: none;
+    }
+
+    #check {
+      display: none;
+    }
+
+    .menu-btn {
+      font-size: 25px;
+      color: white;
+      float: right;
+      line-height: 90px;
+      margin-right: 40px;
+      display: none;
+      cursor: pointer;
+    }
+
+    @media (max-width: 800px) {
+      .navlinks {
+        position: fixed;
+        width: 100%;
+        height: 100vh;
+        text-align: center;
+        transition: all 0.5s;
+        right: -100%;
+        background: #222831;
+      }
+
+      .navlinks li {
+        display: block;
+      }
+
+      .navlinks li a {
+        font-size: 20px;
+      }
+
+      .navlinks li a:hover {
+        border-bottom: none;
+      }
+
+      .menu-btn {
+        display: block;
+        z-index: 99;
+      }
+
+      #check:checked ~ .navlinks {
+        right: 0;
+      }
+    }
+
+    @media (max-width: 360px) {
+      .logo {
+        margin-left: 10px;
+        font-size: 25px;
+      }
+
+      .menu-btn {
+        margin-right: 10px;
+        font-size: 25px;
+      }
+
+      .menu-btn:focus {
+        color: blue;
+      }
+    }
+  </style>
+
+  <body>
+    <header>
+      <nav class="main-nav">
+        <input type="checkbox" id="check" />
+        <label for="check" class="menu-btn">
+          <i class="fas fa-bars"></i>
+        </label>
+        <a href="#" class="logo"
+          ><img
+            src="https://raw.githubusercontent.com/Apizz789/GISTDA_INTERNSHIP/main/PIC/UTM.png"
+            alt="HTML tutorial"
+            class="logo"
+            style="width: 70px; height: 70px; margin-top: 10px"
+          />
+          <p style="position: fixed; top: -20px; left: 160px">
+            【ARTEMIS x GISTDA】
+          </p>
+        </a>
+
+        <ul class="navlinks">
+          <li><a href="#">GISTDA_UTM</a></li>
+        </ul>
+      </nav>
+    </header>
+    <div class="cesiumContainerBox">
+      <center>
+        <div
+          id="cesiumContainer"
+          class="fullSize"
+          style="z-index: -99; width: 1800px; height: 800px"
+        >
+          <div
+            style="
+              z-index: 1;
+              position: absolute;
+              background-color: rgba(0, 0, 0, 0.583);
+              margin: 5px;
+              border-radius: 20px;
+              width: 500px;
+              height: 80px;
+            "
+          >
+            <!-- <button class="cesium-button cesium-button-toolbar" onclick="testtemp1()">Show THALAND</button>
+                    <button class="cesium-button cesium-button-toolbar" onclick="testtemp2()">Hide THALAND</button> -->
+            <div class="intoolbar">
+              <div>
+                <button
+                  class="cesium-button cesium-button-toolbar"
+                  onclick="loadModel()"
+                >
+                  Load Model
+                </button>
+                <button
+                  class="cesium-button cesium-button-toolbar"
+                  onclick="playTime()"
+                >
+                  Play Time
+                </button>
+                <button
+                  class="cesium-button cesium-button-toolbar"
+                  onclick="pauseTime()"
+                >
+                  Stop Time
+                </button>
+              </div>
+
+              <div>
+                <button
+                  class="cesium-button cesium-button-toolbar"
+                  onclick="Slow()"
+                >
+                  Slow 1x Time
+                </button>
+                <button
+                  class="cesium-button cesium-button-toolbar"
+                  onclick="Speed()"
+                >
+                  Speed 1x Time
+                </button>
+                <button
+                  class="cesium-button cesium-button-toolbar"
+                  onclick="clearAll()"
+                >
+                  Clear All Entity
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <img
+              src="https://raw.githubusercontent.com/Apizz789/GISTDA_INTERNSHIP/main/PIC/UTM.png"
+              alt="HTML tutorial"
+              class="logo"
+              style="
+                z-index: 50;
+                position: absolute;
+                width: 70px;
+                height: 70px;
+                left: 50px;
+                top: 810px;
+                margin-top: 10px;
+              "
+            />
+          </div>
+        </div>
+      </center>
+    </div>
+  </body>
+  <script>
+    Cesium.Ion.defaultAccessToken =
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI3ZjQ3MDZlOS1jMGQyLTRmMDctODhkZi1mMWI0MDFiYTllNTMiLCJpZCI6OTE4MjMsImlhdCI6MTY1NDU4MDQzNH0.qeZfFnvOr8ZhvCqR744X_wiSBoow1c8htCGHcx7BkW4";
+    // Plot Focus THAILAND.
+    Cesium.Camera.DEFAULT_VIEW_RECTANGLE = Cesium.Rectangle.fromDegrees(
+      63.0764,
+      -31.70013,
+      139.064604,
+      52.234528
+    );
+    const viewer = new Cesium.Viewer("cesiumContainer", {
+      geocoder: false,
+      baseLayerPicker: false,
+      navigationHelpButton: false,
+      shouldAnimate: true,
+      terrainProvider: Cesium.createWorldTerrain(),
+    });
+
+    const entities = viewer.entities;
+    viewer.fullscreenButton.container.style.visibility = "hidden";
+    viewer.animation.container.style.visibility = "hidden";
+    viewer.timeline.container.style.visibility = "hidden";
+    viewer._cesiumWidget._creditContainer.style.display = "none";
+    viewer.scene.debugShowFramesPerSecond = true;
+
+    const osmBuildings = viewer.scene.primitives.add(
+      Cesium.createOsmBuildings()
+    );
+    // http://geojson.io/#map=9/13.5913/100.5469 GEN LAT LONG TYPE JSON
+
+    //  ANIMATION Button najaa
+
+    Cesium.knockout
+      .getObservable(viewer.clockViewModel, "shouldAnimate")
+      .subscribe(function (isAnimating) {
+        if (isAnimating) {
+          console.log("Cesium clock is animating.");
+        } else {
+          console.log("Cesium clock is paused.");
+        }
+      });
+
+    function playTime() {
+      viewer.clockViewModel.shouldAnimate = true;
+    }
+
+    function pauseTime() {
+      viewer.clockViewModel.shouldAnimate = false;
+    }
+
+    function Slow() {
+      viewer.clockViewModel.multiplier /= 1.1;
+    }
+
+    function Speed() {
+      viewer.clockViewModel.multiplier *= 1.1;
+    }
+
+    const boxes_guardian_items = entities.add(new Cesium.Entity());
+
+    const boxes_sixzax_items = entities.add(new Cesium.Entity());
+
+    const boxes_thailand_items_Wait1 = entities.add(new Cesium.Entity());
+    const boxes_thailand_items_Wait2 = entities.add(new Cesium.Entity());
+    const boxes_thailand_items_Wait3 = entities.add(new Cesium.Entity());
+    const boxes_thailand_items_Wait4 = entities.add(new Cesium.Entity());
+    const boxes_thailand_items_Wait5 = entities.add(new Cesium.Entity());
+    const boxes_guardian_items_BW_list = [
+      boxes_thailand_items_Wait1,
+      boxes_thailand_items_Wait2,
+      boxes_thailand_items_Wait3,
+      boxes_thailand_items_Wait4,
+      boxes_thailand_items_Wait5,
+    ];
+
+    const boxes_thailand_items_Color1 = entities.add(new Cesium.Entity());
+    const boxes_thailand_items_Color2 = entities.add(new Cesium.Entity());
+    const boxes_thailand_items_Color3 = entities.add(new Cesium.Entity());
+    const boxes_thailand_items_Color4 = entities.add(new Cesium.Entity());
+    const boxes_thailand_items_Color5 = entities.add(new Cesium.Entity());
+    const boxes_thailand_items_Color_list = [
+      boxes_thailand_items_Color1,
+      boxes_thailand_items_Color2,
+      boxes_thailand_items_Color3,
+      boxes_thailand_items_Color4,
+      boxes_thailand_items_Color5,
+    ];
+
+    const brillboard = entities.add(new Cesium.Entity());
+
+    function testtemp1() {
+      boxes_thailand_items_Color1.show = true;
+      boxes_thailand_items_Color2.show = true;
+      boxes_thailand_items_Color3.show = true;
+      boxes_thailand_items_Color4.show = true;
+      boxes_thailand_items_Color5.show = true;
+
+      boxes_thailand_items_Wait1.show = false;
+      boxes_thailand_items_Wait2.show = false;
+      boxes_thailand_items_Wait3.show = false;
+      boxes_thailand_items_Wait4.show = false;
+      boxes_thailand_items_Wait5.show = false;
+
+      var THA_RED = Cesium.Color.RED.withAlpha(0.5);
+      var THA_WHITE = Cesium.Color.WHITE.withAlpha(0.5);
+      var THA_BLUE = Cesium.Color.BLUE.withAlpha(0.5);
+      var color_tha_flag = [THA_RED, THA_WHITE, THA_BLUE, THA_WHITE, THA_RED];
+
+      for (var list_color_flag = 10; list_color_flag < 15; list_color_flag++) {
+        entities.add({
+          name: "THAILAND NO. " + [list_color_flag - 9],
+          parent: boxes_thailand_items_Color_list[list_color_flag - 10],
+          position: Cesium.Cartesian3.fromDegrees(
+            temp_boxes[list_color_flag][0],
+            temp_boxes[list_color_flag][1],
+            0
+          ),
+          box: {
+            dimensions: new Cesium.Cartesian3(15.0, 20.0, 100.0),
+            material: Cesium.Color.RED,
+            outline: true,
+            outlineColor: Cesium.Color.BLACK,
+          },
+        });
+      }
+
+      //  RAK CHATKULLLLLLLLLLLLLLLLLLLLLLLLLL
+    }
+
+    function testtemp2() {
+      boxes_thailand_items_Color1.show = false;
+      boxes_thailand_items_Color2.show = false;
+      boxes_thailand_items_Color3.show = false;
+      boxes_thailand_items_Color4.show = false;
+      boxes_thailand_items_Color5.show = false;
+
+      boxes_thailand_items_Wait1.show = true;
+      boxes_thailand_items_Wait2.show = true;
+      boxes_thailand_items_Wait3.show = true;
+      boxes_thailand_items_Wait4.show = true;
+      boxes_thailand_items_Wait5.show = true;
+    }
+
+    function tha_flag1() {
+      boxes_thailand_items_Wait1.show = false;
+      boxes_thailand_items_Color1.show = true;
+
+      var THA_RED = Cesium.Color.RED.withAlpha(0.5);
+
+      entities.add({
+        name: "THAILAND NO. 1",
+        parent: boxes_thailand_items_Color1,
+        position: Cesium.Cartesian3.fromDegrees(
+          temp_boxes[10][0],
+          temp_boxes[10][1],
+          0.0
+        ),
+        box: {
+          dimensions: new Cesium.Cartesian3(30.0, 30.0, 100.0),
+          material: THA_RED,
+          outline: true,
+          outlineColor: Cesium.Color.BLACK,
+        },
+      });
+    }
+
+    function tha_flag2() {
+      boxes_thailand_items_Wait2.show = false;
+      boxes_thailand_items_Color2.show = true;
+    }
+
+    function tha_flag3() {
+      boxes_thailand_items_Wait3.show = false;
+      boxes_thailand_items_Color3.show = true;
+    }
+
+    function tha_flag4() {
+      boxes_thailand_items_Wait4.show = false;
+      boxes_thailand_items_Color4.show = true;
+    }
+    function tha_flag5() {
+      boxes_thailand_items_Wait5.show = false;
+      boxes_thailand_items_Color5.show = true;
+    }
+
+    var n_count_dummy_flag = 0;
+    function count_flag() {
+      if (n_count_dummy_flag == 1) {
+        boxes_thailand_items_Color1.show = true;
+        boxes_thailand_items_Wait1.show = false;
+        console.log("SHOW 1");
+      } else if (n_count_dummy_flag == 2) {
+        boxes_thailand_items_Color2.show = true;
+        boxes_thailand_items_Wait2.show = false;
+        console.log("SHOW 2");
+      } else if (n_count_dummy_flag == 3) {
+        boxes_thailand_items_Color3.show = true;
+        boxes_thailand_items_Wait3.show = false;
+        console.log("SHOW 3");
+      } else if (n_count_dummy_flag == 4) {
+        boxes_thailand_items_Color4.show = true;
+        boxes_thailand_items_Wait4.show = false;
+        console.log("SHOW 4");
+      } else if (n_count_dummy_flag == 5) {
+        boxes_thailand_items_Color5.show = true;
+        boxes_thailand_items_Wait5.show = false;
+        console.log("SHOW 5");
+      }
+    }
+
+    var temp_line = [];
+    temp_line.push(
+      [13.103117478059133, 100.92782244086266, 30],
+      [13.103074373883723, 100.9278130531311, 30],
+      [13.103024738763311, 100.92781439423561, 30],
+      [13.10297640982064, 100.92782512307167, 30],
+      [13.102929387056511, 100.92784523963928, 30],
+      [13.102887589036401, 100.92787206172943, 30],
+      [13.102856240516681, 100.92790827155113, 30],
+      [13.102822279615793, 100.92795923352242, 30],
+      [13.102803992974911, 100.92802360653877, 30],
+      [13.102806605352264, 100.92810675501823, 30],
+      [13.102831422935719, 100.92817783355713, 30],
+      [13.102865383835336, 100.92823147773743, 30],
+      [13.10290979423547, 100.92826768755913, 30],
+      [13.102951592251813, 100.92829585075378, 30],
+      [13.10293461180852, 100.92835485935211, 32],
+      [13.10291110042358, 100.92842057347298, 34],
+      [13.102882364283401, 100.92849835753441, 36],
+      [13.102854934328267, 100.9285680949688, 38],
+      [13.102830116747176, 100.92863112688065, 40],
+      [13.102801380597533, 100.92870354652405, 42],
+      [13.102767419689075, 100.9287866950035, 44],
+      [13.102732152586883, 100.928875207901, 46],
+      [13.10269296691185, 100.92898115515709, 48],
+      [13.102656393609525, 100.9290723502636, 50],
+      [13.102618514112093, 100.92916488647461, 52],
+      [13.102542755099762, 100.9293620288372, 54],
+      [13.102436953681448, 100.92966377735138, 54],
+      [13.102363806995275, 100.92989981174469, 54],
+      [13.102246249775549, 100.93016803264618, 55],
+      [13.102113018192005, 100.93048989772797, 55],
+      [13.102327233644058, 100.93057036399841, 55],
+      [13.102551898430068, 100.93067228794098, 60],
+      [13.102787012521452, 100.93076348304749, 65],
+      [13.103037800638075, 100.93084931373596, 70],
+      [13.103283363754686, 100.93093514442444, 75],
+      [13.103544600843858, 100.93102097511292, 80]
+    );
+
+    temp_line.reverse();
+
+    var temp_boxes = [];
+    temp_boxes.push(
+      // ----------------
+      // THAI GUARDIAN . 0 - 9
+      // ----------------
+      [100.92917561531067, 13.100618729609614],
+      [100.93069911003113, 13.100608280007178],
+      [100.92912197113037, 13.099605116107945],
+      [100.93069911003113, 13.09968871325566],
+
+      // main Guedian
+      [100.92990517616272, 13.10019029554588],
+
+      [100.9298837184906, 13.101214356215575],
+      [100.9295403957367, 13.100926992682078],
+      [100.93032896518707, 13.10094789185947],
+      [100.92863380908966, 13.1001223730039],
+      [100.93117654323578, 13.10015372187175],
+
+      // ----------------
+      //  THALAND Flag . 10 - 14
+      // ----------------
+
+      [100.92870354652405, 13.102801380597533],
+      [100.9290723502636, 13.102656393609525],
+      [100.92609643936157, 13.098581048745066],
+      [100.92587113380432, 13.098915438556338],
+      [100.92564582824706, 13.099239378252992],
+
+      // ----------------
+      //  ZIGZAX STEP . 15 - 24
+      // ----------------
+      [100.92725515365599, 13.097943616909477],
+      [100.92781037092209, 13.097943616909477],
+      [100.92833340167999, 13.097943616909477],
+      [100.92888861894606, 13.097943616909477],
+
+      // 19 - 24
+      [100.92872500419617, 13.103137070863648],
+      [100.92912197113037, 13.102996002636388],
+      [100.92908978462218, 13.103487128708023],
+
+      [100.9300285577774, 13.103231116303574],
+      [100.92973351478575, 13.103732691376367],
+      [100.92845141887665, 13.103779713987052],
+
+      //  25 - 27
+      [100.92888057231903, 13.103973029069884],
+      [100.92959940433502, 13.10301690163811],
+      [100.92928290367126, 13.103973029069884],
+
+      // 28-31
+      [100.92865526676178, 13.103487128708023],
+      [100.92955648899078, 13.103440106041463],
+      [100.93021631240843, 13.103669994548168],
+      [100.93046844005585, 13.103137070863648],
+      [100.92860162258148, 13.10425516432368],
+
+      // 32 - 35
+
+      [100.92832267284392, 13.102248862158818],
+      [100.92773795127869, 13.102322008879137],
+      [100.92852115631104, 13.101945825514552],
+      [100.9291487932205, 13.102107793422554],
+
+      // 36 -39
+      [100.9294706583023, 13.101355425463819],
+      [100.92891275882721, 13.101595765478352],
+      [100.92949211597441, 13.101987623694553],
+      [100.92990517616272, 13.101768183170325]
+    );
+
+    var r = 255,
+      g = 0,
+      b = 0;
+    const random_color_start_time = Cesium.JulianDate.now();
+    //New color every time it's called
+    var fadeColor = new Cesium.CallbackProperty(function (
+      random_color_start_time,
+      result
+    ) {
+      if (r > 0 && b === 0) {
+        r--;
+        g++;
+      }
+      if (g > 0 && r === 0) {
+        g--;
+        b++;
+      }
+      if (b > 0 && g === 0) {
+        r++;
+        b--;
+      }
+
+      return Cesium.Color.fromBytes(r, g, b, 160, result);
+    },
+    false);
+
+    for (var a = 0; a < temp_boxes.length; a++) {
+      if (a <= 9) {
+        if (a != 4) {
+          entities.add({
+            name: "Red box with black outline" + [a],
+            parent: boxes_guardian_items,
+            position: Cesium.Cartesian3.fromDegrees(
+              temp_boxes[a][0],
+              temp_boxes[a][1],
+              20.0
+            ),
+            box: {
+              dimensions: new Cesium.Cartesian3(25.0, 25.0, 50.0),
+              material: Cesium.Color.GRAY.withAlpha(0.5),
+              outline: true,
+              outlineColor: Cesium.Color.BLACK,
+            },
+          });
+        }
+      } else if (a > 9 && a < 15) {
+        entities.add({
+          name: "THAILAND NO. " + [a - 9],
+          parent: boxes_guardian_items_BW_list[a - 10],
+          position: Cesium.Cartesian3.fromDegrees(
+            temp_boxes[a][0],
+            temp_boxes[a][1],
+            0.0
+          ),
+          box: {
+            dimensions: new Cesium.Cartesian3(15.0, 20.0, 100.0),
+            material: Cesium.Color.GRAY.withAlpha(0.3),
+            outline: true,
+            outlineColor: Cesium.Color.BLACK,
+          },
+        });
+        console.log("555+");
+      } else if (a >= 15) {
+        if ((a > 18 && a < 25) || a == 35 || a == 37 || a == 38) {
+          entities.add({
+            parent: boxes_sixzax_items,
+            position: Cesium.Cartesian3.fromDegrees(
+              temp_boxes[a][0],
+              temp_boxes[a][1],
+              20.0
+            ),
+            box: {
+              dimensions: new Cesium.Cartesian3(40.0, 20.0, 70.0),
+              material: Cesium.Color.GRAY.withAlpha(0.5),
+              outline: true,
+              outlineColor: Cesium.Color.BLACK,
+            },
+          });
+        }
+
+        if ((a >= 25 && a < 28) || a == 32 || a == 36) {
+          entities.add({
+            parent: boxes_sixzax_items,
+            position: Cesium.Cartesian3.fromDegrees(
+              temp_boxes[a][0],
+              temp_boxes[a][1],
+              20.0
+            ),
+            box: {
+              dimensions: new Cesium.Cartesian3(20.0, 20.0, 100.0),
+              material: Cesium.Color.GRAY.withAlpha(0.5),
+              outline: true,
+              outlineColor: Cesium.Color.BLACK,
+            },
+          });
+        }
+
+        if ((a >= 28 && a < 32) || a == 33 || a == 34 || a == 39) {
+          entities.add({
+            parent: boxes_sixzax_items,
+            position: Cesium.Cartesian3.fromDegrees(
+              temp_boxes[a][0],
+              temp_boxes[a][1],
+              20.0
+            ),
+            box: {
+              dimensions: new Cesium.Cartesian3(30.0, 30.0, 30.0),
+              material: Cesium.Color.GRAY.withAlpha(0.5),
+              outline: true,
+              outlineColor: Cesium.Color.BLACK,
+            },
+          });
+        }
+      }
+    }
+
+    var THA_RED = Cesium.Color.RED.withAlpha(0.5);
+    var THA_WHITE = Cesium.Color.WHITE.withAlpha(0.5);
+    var THA_BLUE = Cesium.Color.BLUE.withAlpha(0.5);
+    var color_tha_flag = [THA_RED, THA_WHITE, THA_BLUE, THA_WHITE, THA_RED];
+
+    for (var list_color_flag = 10; list_color_flag < 15; list_color_flag++) {
+      entities.add({
+        name: "THAILAND NO. " + [list_color_flag - 9],
+        parent: boxes_thailand_items_Color_list[list_color_flag - 10],
+        position: Cesium.Cartesian3.fromDegrees(
+          temp_boxes[list_color_flag][0],
+          temp_boxes[list_color_flag][1],
+          0
+        ),
+        box: {
+          dimensions: new Cesium.Cartesian3(25.0, 30.0, 100.0),
+          material: Cesium.Color.RED.withAlpha(0.5),
+          outline: true,
+          outlineColor: Cesium.Color.BLACK,
+        },
+      });
+    }
+
+    boxes_thailand_items_Color_list[0].show = false;
+    boxes_thailand_items_Color_list[1].show = false;
+    boxes_thailand_items_Color_list[2].show = false;
+    boxes_thailand_items_Color_list[3].show = false;
+    boxes_thailand_items_Color_list[4].show = false;
+    viewer.scene.globe.depthTestAgainstTerrain = true;
+
+    const SI_Buding = viewer.entities.add({
+      name: "GISTDA SI",
+      position: Cesium.Cartesian3.fromDegrees(
+        100.93031287193298,
+        13.10254667366993,
+        0
+      ),
+      rotation: Cesium.Math.toRadians(30),
+      box: {
+        dimensions: new Cesium.Cartesian3(35.0, 35.0, 200.0),
+        material: Cesium.Color.GRAY.withAlpha(0.3),
+        outline: true,
+        outlineColor: Cesium.Color.BLACK,
+      },
+    });
+
+    const redCone = viewer.entities.add({
+      position: Cesium.Cartesian3.fromDegrees(
+        100.92766284942627,
+        13.100263442877834,
+        40.0
+      ),
+      name: "Green circle at height with outline",
+      ellipse: {
+        semiMinorAxis: 30.0,
+        semiMajorAxis: 40.0,
+        height: 30.0,
+        material:
+          "https://raw.githubusercontent.com/Apizz789/GISTDA_INTERNSHIP/main/PIC/Gistda.png",
+        outline: true,
+      },
+    });
+
+    // const redLine = viewer.entities.add({
+    //     name: "Red line on terrain",
+    //     polyline: {
+    //         positions: Cesium.Cartesian3.fromDegreesArray([
+    //             100.92782244086266, 13.103117478059133,
+    //             100.9278130531311, 13.103074373883723,
+    //             100.92781439423561, 13.103024738763311,
+    //             100.92782512307167, 13.10297640982064,
+    //             100.92784523963928, 13.102929387056511,
+    //             100.92787206172943, 13.102887589036401,
+    //             100.92790827155113, 13.102856240516681,
+    //             100.92795923352242, 13.102822279615793,
+    //             100.92802360653877, 13.102803992974911,
+    //             100.92810675501823, 13.102806605352264,
+    //             100.92817783355713, 13.102831422935719,
+    //             100.92823147773743, 13.102865383835336,
+    //             100.92826768755913, 13.10290979423547,
+    //             100.92829585075378, 13.102951592251813,
+    //             100.92835485935211, 13.10293461180852,
+    //             100.92842057347298, 13.10291110042358,
+    //             100.92849835753441, 13.102882364283401,
+    //             100.9285680949688, 13.102854934328267,
+    //             100.92863112688065, 13.102830116747176,
+    //             100.92870354652405, 13.102801380597533,
+    //             100.9287866950035, 13.102767419689075,
+    //             100.928875207901, 13.102732152586883,
+    //             100.92898115515709, 13.10269296691185,
+    //             100.9290723502636, 13.102656393609525,
+    //             100.92916488647461, 13.102618514112093,
+    //             100.9293620288372, 13.102542755099762,
+    //             100.92966377735138, 13.102436953681448,
+    //             100.92989981174469, 13.102363806995275,
+    //             100.93016803264618, 13.102246249775549,
+    //             100.93048989772797, 13.102113018192005,
+    //             100.93057036399841, 13.102327233644058,
+    //             100.93067228794098, 13.102551898430068,
+    //             100.93076348304749, 13.102787012521452,
+    //             100.93084931373596, 13.103037800638075,
+    //             100.93093514442444, 13.103283363754686,
+    //             100.93102097511292, 13.103544600843858,
+    //         ]),
+    //         width: 5,
+    //         material: Cesium.Color.RED,
+    //         clampToGround: true,
+    //     },
+    // });
+
+    viewer.flyTo(redCone);
+
+    var ttest;
+    var flightData1 = [];
+    var flightData1 = [];
+    var flightData2 = [];
+
+    var entityPosition1 = [];
+    var entityPosition2 = [];
+
+    var Resettime = false;
+
+    //   viewer.trackedEntity = ppoint;
+    var Launcher1 = [13.10364909560189, 100.93106389045714];
+    var Destination = [13.105195612833953, 100.93173444271088];
+
+    var Launcher2 = [13.104547748689736, 100.92858016490936];
+    var Destination2 = [13.102870608588718, 100.9333062171936];
+
+    ttest = [12.639053333333319, 83.23961333333331, 64800];
+
+    const positionProperty1 = new Cesium.SampledPositionProperty();
+    const positionProperty2 = new Cesium.SampledPositionProperty();
+
+    var check_centroid_pos1 = [];
+    var check_centroid_pos2 = [];
+    // const d = Cesium.Cartesian3.distance(new Cesium.Cartesian3(10470653.662, 15980600.791, 0.0), new Cesium.Cartesian3(11468313.524, 16934908.695, 0.0));
+
+    // const d = Cesium.Cartesian3.distance(new Cesium.Cartesian3.fromDegrees(100.5968, 13.5993), new Cesium.Cartesian3.fromDegrees(100.9167, 14.5333))/1000;
+
+    // STEP 6 CODE (airplane entity)
+    async function loadModel() {
+      viewer.flyTo(SI_Buding, {
+        duration: 4.0,
+        offset: new Cesium.HeadingPitchRange(
+          Cesium.Math.toRadians(90),
+          Cesium.Math.toRadians(-25),
+          480
+        ),
+      });
+      var int1 = setInterval(display, 10);
+
+      n_count_dummy_flag = 0;
+
+      Resettime = true;
+      flightData1 = [];
+      flightData2 = [];
+
+      Point = function (x, y, z) {
+        this.latitude = x;
+        this.longitude = y;
+        this.height = z;
+      };
+
+      var StartHeight = 80.0;
+      var EndHeight = 150.0;
+
+      var pointA = new Point(Launcher1[0], Launcher1[1], StartHeight + 5);
+      var pointB = new Point(Destination[0], Destination[1], EndHeight);
+
+      var pointC = new Point(Launcher1[0], Launcher1[1], StartHeight);
+      var pointD = new Point(Launcher1[0], Launcher1[1], StartHeight + 10000);
+
+      var pointX = new Point(Launcher2[0], Launcher2[1], StartHeight);
+      var pointY = new Point(Destination2[0], Destination2[1], EndHeight - 55);
+
+      var pointZ = new Point(Launcher1[0], Launcher1[1], StartHeight + 10000);
+
+      var numberOfPoints = 45;
+      var numberOfPoints2 = 75;
+
+      // -------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+      for (var i = 0; i < numberOfPoints; i++) {
+        flightData1.push(
+          new Point(
+            ((pointA.latitude - pointB.latitude) / numberOfPoints) * i +
+              pointB.latitude,
+            ((pointA.longitude - pointB.longitude) / numberOfPoints) * i +
+              pointB.longitude,
+            ((pointA.height - pointB.height) / numberOfPoints) * i +
+              pointB.height
+          )
+        );
+      }
+
+      for (var i = 0; i < numberOfPoints2; i++) {
+        flightData2.push(
+          new Point(
+            ((pointX.latitude - pointY.latitude) / numberOfPoints2) * i +
+              pointY.latitude,
+            ((pointX.longitude - pointY.longitude) / numberOfPoints2) * i +
+              pointY.longitude,
+            ((pointX.height - pointY.height) / numberOfPoints2) * i +
+              pointY.height
+          )
+        );
+      }
+
+      // -------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+      for (var n = 0; n < temp_line.length; n++) {
+        flightData1.push(
+          new Point(temp_line[n][0], temp_line[n][1], temp_line[n][2])
+        );
+        console.log("5666666");
+      }
+
+      // flightData2.push(new Point(Launcher1[0], Launcher1[1], StartHeight), new Point(Launcher1[0], Launcher1[1], (StartHeight / 2)), new Point(Launcher1[0], Launcher1[1], 0.0))
+
+      const timeStepInSeconds = 10;
+      const totalSeconds = timeStepInSeconds * (flightData1.length - 1);
+
+      const start = Cesium.JulianDate.now();
+      const stop = Cesium.JulianDate.addSeconds(
+        start,
+        totalSeconds,
+        new Cesium.JulianDate()
+      );
+
+      const start2 = Cesium.JulianDate.now();
+      const stop2 = Cesium.JulianDate.addSeconds(
+        start2,
+        totalSeconds,
+        new Cesium.JulianDate()
+      );
+
+      console.log(stop, stop2);
+
+      viewer.clock.startTime = start.clone();
+      viewer.clock.stopTime = stop.clone();
+
+      viewer.clock.currentTime = start.clone();
+      viewer.timeline.zoomTo(start, stop);
+
+      // Speed up the playback speed 50x.
+      viewer.clock.multiplier = 5;
+      // Start playing the scene.
+      viewer.clock.shouldAnimate = true;
+
+      // Load the glTF model from Cesium ion.
+      //   https://sketchfab.com/3d-models/drone-v1-a75a15d00a144d108c3f9c7b31c4ff97
+
+      const center = new Cesium.Cartesian3.fromDegrees(0, 0, 0);
+      // console.log(positionProperty1._property._values);
+      const Heading = Cesium.Math.toRadians(0.0);
+      const Pitch = Cesium.Math.toRadians(90.0);
+      const Roll = Cesium.Math.toRadians(0.0);
+      const orientation = Cesium.Transforms.headingPitchRollQuaternion(
+        center,
+        new Cesium.HeadingPitchRoll(Heading, Pitch, Roll)
+      );
+
+      const airplaneUri = await Cesium.IonResource.fromAssetId(1196622);
+      const airplaneUri2 = await Cesium.IonResource.fromAssetId(1196622);
+
+      const airplaneEntity = viewer.entities.add({
+        availability: new Cesium.TimeIntervalCollection([
+          new Cesium.TimeInterval({ start: start, stop: stop }),
+        ]),
+        description: `Location: (${positionProperty1})`,
+        position: positionProperty1,
+        // Attach the 3D model instead of the green point.
+        model: {
+          uri: airplaneUri,
+          minimumPixelSize: 0.5,
+          maximumPixelSize: 0.5,
+        },
+        // Automatically compute the orientation from the position.
+        orientation: new Cesium.VelocityOrientationProperty(positionProperty1),
+        path: new Cesium.PathGraphics({ width: 1 }),
+      });
+
+      const airplaneEntity2 = viewer.entities.add({
+        availability: new Cesium.TimeIntervalCollection([
+          new Cesium.TimeInterval({ start: start2, stop: stop2 }),
+        ]),
+        description: `Location: (${positionProperty1})`,
+        position: positionProperty2,
+        // Attach the 3D model instead of the green point.
+        model: {
+          uri: airplaneUri2,
+          minimumPixelSize: 0.5,
+          maximumPixelSize: 0.5,
+        },
+        // Automatically compute the orientation from the position.
+        orientation: new Cesium.VelocityOrientationProperty(positionProperty2),
+        path: new Cesium.PathGraphics({ width: 1 }),
+      });
+
+      flightData1.reverse();
+      for (let i = 0; i < flightData1.length; i++) {
+        const dataPoint = flightData1[i];
+
+        const time = Cesium.JulianDate.addSeconds(
+          start,
+          i * timeStepInSeconds,
+          new Cesium.JulianDate()
+        );
+        const position = Cesium.Cartesian3.fromDegrees(
+          dataPoint.longitude,
+          dataPoint.latitude,
+          dataPoint.height
+        );
+
+        positionProperty1.addSample(time, position);
+
+        viewer.entities.add({
+          description: `Location: (${dataPoint.longitude}, ${dataPoint.latitude}, ${dataPoint.height})`,
+          position: position,
+          point: { pixelSize: 2, color: Cesium.Color.RED },
+        });
+        entityPosition1.push({
+          lat: dataPoint.latitude,
+          long: dataPoint.longitude,
+          alt: dataPoint.height,
+          ti: time,
+        });
+      }
+
+      flightData2.reverse();
+      for (let i = 0; i < flightData2.length; i++) {
+        const dataPoint = flightData2[i];
+
+        const time2 = Cesium.JulianDate.addSeconds(
+          start2,
+          i * timeStepInSeconds,
+          new Cesium.JulianDate()
+        );
+        const position2 = Cesium.Cartesian3.fromDegrees(
+          dataPoint.longitude,
+          dataPoint.latitude,
+          dataPoint.height
+        );
+
+        positionProperty2.addSample(time2, position2);
+
+        viewer.entities.add({
+          description: `Location: (${dataPoint.longitude}, ${dataPoint.latitude}, ${dataPoint.height})`,
+          position: position2,
+          point: { pixelSize: 2, color: Cesium.Color.BLUE },
+        });
+
+        entityPosition2.push({
+          lat: dataPoint.latitude,
+          long: dataPoint.longitude,
+          alt: dataPoint.height,
+          ti: time2,
+        });
+      }
+    }
+
+    function clearAll() {
+      // pauseTime()
+      Resettime = false;
+      viewer.entities.removeAll();
+      entities.removeAll();
+      location.reload();
+    }
+    function Aobject_toggleCallbackTrue() {
+      return true;
+    }
+    function Aobject_toggleCallbackFalse() {
+      return false;
+    }
+
+    const main_animation = entities.add(new Cesium.Entity());
+    const dummy_waring_animation = entities.add(new Cesium.Entity());
+    const dummy_danger_animation = entities.add(new Cesium.Entity());
+
+    function show_cylinder_dangerZone() {
+      main_animation.show = false;
+      dummy_danger_animation.show = true;
+      dummy_waring_animation.show = false;
+    }
+
+    function show_cylinder_warningZone() {
+      main_animation.show = false;
+      dummy_danger_animation.show = false;
+      dummy_waring_animation.show = true;
+    }
+
+    function show_cylinder() {
+      main_animation.show = true;
+      dummy_danger_animation.show = false;
+      dummy_waring_animation.show = false;
+    }
+
+    var rha_check = false;
+
+    if (rha_check == true) {
+      var THA_RED = Cesium.Color.RED.withAlpha(0.5);
+
+      entities.add({
+        name: "THAILAND NO. 1",
+        parent: boxes_thailand_items_Color1,
+        position: Cesium.Cartesian3.fromDegrees(
+          temp_boxes[10][0],
+          temp_boxes[10][1],
+          (70.0 * 10) / 10
+        ),
+        box: {
+          dimensions: new Cesium.Cartesian3(30.0, 30.0, 1000.0),
+          material: THA_RED,
+          outline: true,
+          outlineColor: Cesium.Color.BLACK,
+        },
+      });
+
+      boxes_thailand_items_Wait1.show = false;
+      boxes_thailand_items_Color1.show = true;
+    }
+
+    function display() {
+      // check_centroid_pos1 = []
+      // check_centroid_pos2 = []
+
+      var searchObj1 = entityPosition1.find(
+        (e) =>
+          parseInt(e.ti.secondsOfDay) >
+            parseInt(viewer.clock.currentTime.secondsOfDay) &&
+          e.ti.dayNumber === viewer.clock.currentTime.dayNumber
+      );
+      var searchObj2 = entityPosition2.find(
+        (e) =>
+          parseInt(e.ti.secondsOfDay) >
+            parseInt(viewer.clock.currentTime.secondsOfDay) &&
+          e.ti.dayNumber === viewer.clock.currentTime.dayNumber
+      );
+      var setHeight = 5;
+      var setRadians = 7;
+
+      entities.add({
+        name: "Green cylinder with black outline NO. 1",
+        label: {
+          id: "my 3D label",
+          text: "TDN308",
+          // pixelOffset: new Cesium.Cartesian2(0.0, 20),
+          font: "10px Helvetica",
+          verticalOrigin: Cesium.VerticalOrigin.TOP,
+          horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
+        },
+        parent: main_animation,
+        position: positionProperty1,
+        orientation: new Cesium.VelocityOrientationProperty(positionProperty1),
+        cylinder: {
+          length: setHeight,
+          topRadius: setRadians,
+          bottomRadius: setRadians,
+          // material: new Cesium.ColorMaterialProperty(fadeColor),
+          material: Cesium.Color.LIGHTGREEN.withAlpha(0.5),
+          outline: true,
+          outlineColor: Cesium.Color.DARK_GREEN,
+          minimumPixelSize: 750,
+          maximumPixelSize: 750,
+        },
+      });
+
+      entities.add({
+        parent: main_animation,
+        label: {
+          id: "my 3D label",
+          text: "TDN048",
+          // pixelOffset: new Cesium.Cartesian2(0.0, 20),
+          font: "10px Helvetica",
+          verticalOrigin: Cesium.VerticalOrigin.TOP,
+          horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
+        },
+        name: "Green cylinder with black outline NO. 2",
+        position: positionProperty2,
+        orientation: new Cesium.VelocityOrientationProperty(positionProperty2),
+        cylinder: {
+          length: setHeight,
+          topRadius: setRadians,
+          bottomRadius: setRadians,
+          material: Cesium.Color.LIGHTGREEN.withAlpha(0.5),
+          outline: true,
+          outlineColor: Cesium.Color.DARK_GREEN,
+          minimumPixelSize: 750,
+          maximumPixelSize: 750,
+        },
+      });
+
+      check_centroid_pos1.push(searchObj1);
+      check_centroid_pos2.push(searchObj2);
+
+      if (
+        searchObj1 !== undefined &&
+        searchObj2 !== undefined &&
+        Resettime == true
+      ) {
+        var setpos_thaflag = [
+          {
+            flaglat: 13.102801380597533,
+            flaglong: 100.92870354652405,
+            flagheight: 30.0,
+          },
+          {
+            flaglat: 13.102656393609525,
+            flaglong: 100.9290723502636,
+            flagheight: 30.0,
+          },
+          {
+            flaglat: 13.098581048745066,
+            flaglong: 100.92609643936157,
+            flagheight: 84.0,
+          },
+          {
+            flaglat: 13.098915438556338,
+            flaglong: 100.92587113380432,
+            flagheight: 91.0,
+          },
+          {
+            flaglat: 13.099239378252992,
+            flaglong: 100.92564582824706,
+            flagheight: 98.0,
+          },
+        ];
+
+        const distance_btw_drone_THA_p1 =
+          Cesium.Cartesian3.distance(
+            new Cesium.Cartesian3.fromDegrees(
+              searchObj1.long,
+              searchObj1.lat,
+              searchObj1.alt
+            ),
+            new Cesium.Cartesian3.fromDegrees(
+              setpos_thaflag[0].flaglong,
+              setpos_thaflag[0].flaglat,
+              setpos_thaflag[0].flagheight
+            )
+          ) / 1000;
+        const distance_btw_drone_THA_p2 =
+          Cesium.Cartesian3.distance(
+            new Cesium.Cartesian3.fromDegrees(
+              searchObj1.long,
+              searchObj1.lat,
+              searchObj1.alt
+            ),
+            new Cesium.Cartesian3.fromDegrees(
+              setpos_thaflag[1].flaglong,
+              setpos_thaflag[1].flaglat,
+              setpos_thaflag[1].flagheight
+            )
+          ) / 1000;
+        const distance_btw_drone_THA_p3 =
+          Cesium.Cartesian3.distance(
+            new Cesium.Cartesian3.fromDegrees(
+              searchObj1.long,
+              searchObj1.lat,
+              searchObj1.alt
+            ),
+            new Cesium.Cartesian3.fromDegrees(
+              setpos_thaflag[2].flaglong,
+              setpos_thaflag[2].flaglat,
+              setpos_thaflag[2].flagheight
+            )
+          ) / 1000;
+        const distance_btw_drone_THA_p4 =
+          Cesium.Cartesian3.distance(
+            new Cesium.Cartesian3.fromDegrees(
+              searchObj1.long,
+              searchObj1.lat,
+              searchObj1.alt
+            ),
+            new Cesium.Cartesian3.fromDegrees(
+              setpos_thaflag[3].flaglong,
+              setpos_thaflag[3].flaglat,
+              setpos_thaflag[3].flagheight
+            )
+          ) / 1000;
+        const distance_btw_drone_THA_p5 =
+          Cesium.Cartesian3.distance(
+            new Cesium.Cartesian3.fromDegrees(
+              searchObj1.long,
+              searchObj1.lat,
+              searchObj1.alt
+            ),
+            new Cesium.Cartesian3.fromDegrees(
+              setpos_thaflag[4].flaglong,
+              setpos_thaflag[4].flaglat,
+              setpos_thaflag[4].flagheight
+            )
+          ) / 1000;
+
+        console.log(
+          "D1 : " +
+            distance_btw_drone_THA_p1 +
+            " (" +
+            (setRadians * 2) / 1000 +
+            ")"
+        );
+        console.log(
+          "D2 : " +
+            distance_btw_drone_THA_p2 +
+            " (" +
+            (setRadians * 2) / 1000 +
+            ")"
+        );
+        console.log(
+          "D3 : " +
+            distance_btw_drone_THA_p3 +
+            " (" +
+            (setRadians * 2) / 1000 +
+            ")"
+        );
+        console.log(
+          "D4 : " +
+            distance_btw_drone_THA_p4 +
+            " (" +
+            (setRadians * 2) / 1000 +
+            ")"
+        );
+        console.log(
+          "D5 : " +
+            distance_btw_drone_THA_p5 +
+            " (" +
+            (setRadians * 2) / 1000 +
+            ")"
+        );
+
+        if (distance_btw_drone_THA_p1 < (setRadians * 2) / 1000) {
+          boxes_guardian_items_BW_list[0].show = false;
+          boxes_thailand_items_Color_list[0].show = true;
+          console.log("SHOW 1");
+        } else if (distance_btw_drone_THA_p2 == 0.020000000000674176) {
+          boxes_guardian_items_BW_list[1].show = false;
+          boxes_thailand_items_Color_list[1].show = true;
+          console.log("SHOW 2");
+        } else if (distance_btw_drone_THA_p3 < (setRadians * 2) / 1000) {
+          boxes_guardian_items_BW_list[2].show = false;
+          boxes_thailand_items_Color_list[2].show = true;
+          console.log("SHOW 3");
+        } else if (distance_btw_drone_THA_p4 < (setRadians * 2) / 1000) {
+          boxes_guardian_items_BW_list[3].show = false;
+          boxes_thailand_items_Color_list[3].show = true;
+          console.log("SHOW 4");
+        } else if (distance_btw_drone_THA_p5 < (setRadians * 2) / 1000) {
+          boxes_guardian_items_BW_list[4].show = false;
+          boxes_thailand_items_Color_list[4].show = true;
+          console.log("SHOW 5");
+        }
+
+        const d =
+          Cesium.Cartesian3.distance(
+            new Cesium.Cartesian3.fromDegrees(
+              searchObj1.long,
+              searchObj1.lat,
+              searchObj1.alt
+            ),
+            new Cesium.Cartesian3.fromDegrees(
+              searchObj2.long,
+              searchObj2.lat,
+              searchObj2.alt
+            )
+          ) / 1000;
+        // console.log("D : " + d + " KM")
+
+        var colRed = Cesium.Color.RED.withAlpha(0.5);
+        var colGold = Cesium.Color.GOLD.withAlpha(0.5);
+        if (d < (setRadians * 4) / 1000 && d > (setRadians * 2) / 1000) {
+          entities.add({
+            parent: dummy_waring_animation,
+            label: {
+              id: "my 3D label",
+              text: "TDN308",
+              // pixelOffset: new Cesium.Cartesian2(0.0, 20),
+              font: "10px Helvetica",
+              verticalOrigin: Cesium.VerticalOrigin.TOP,
+              horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
+            },
+            name: "GOLD cylinder with black outline NO. 1",
+            position: positionProperty1,
+            orientation: new Cesium.VelocityOrientationProperty(
+              positionProperty1
+            ),
+            cylinder: {
+              length: setHeight,
+              topRadius: setRadians,
+              bottomRadius: setRadians,
+              material: Cesium.Color.GOLD.withAlpha(0.5),
+              outline: true,
+              outlineColor: Cesium.Color.DARK_RED,
+              minimumPixelSize: 750,
+              maximumPixelSize: 750,
+            },
+          });
+
+          entities.add({
+            parent: dummy_waring_animation,
+            label: {
+              id: "my 3D label",
+              text: "TDN048",
+              // pixelOffset: new Cesium.Cartesian2(0.0, 20),
+              font: "10px Helvetica",
+              verticalOrigin: Cesium.VerticalOrigin.TOP,
+              horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
+            },
+            name: "GOLD cylinder with black outline NO. 2",
+            position: positionProperty2,
+            orientation: new Cesium.VelocityOrientationProperty(
+              positionProperty2
+            ),
+            cylinder: {
+              length: setHeight,
+              topRadius: setRadians,
+              bottomRadius: setRadians,
+              material: Cesium.Color.GOLD.withAlpha(0.5),
+              outline: true,
+              outlineColor: Cesium.Color.DARK_RED,
+              minimumPixelSize: 750,
+              maximumPixelSize: 750,
+            },
+          });
+
+          show_cylinder_warningZone();
+          console.log("WARING WARING");
+        } else if (d < (setRadians * 2) / 1000) {
+          entities.add({
+            parent: dummy_danger_animation,
+            label: {
+              id: "my 3D label",
+              text: "TDN308",
+              // pixelOffset: new Cesium.Cartesian2(0.0, 20),
+              font: "10px Helvetica",
+              verticalOrigin: Cesium.VerticalOrigin.TOP,
+              horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
+            },
+            name: "RED cylinder with black outline NO. 1",
+            position: positionProperty1,
+            orientation: new Cesium.VelocityOrientationProperty(
+              positionProperty1
+            ),
+            cylinder: {
+              length: setHeight,
+              topRadius: setRadians,
+              bottomRadius: setRadians,
+              material: Cesium.Color.CRIMSON.withAlpha(0.5),
+              outline: true,
+              outlineColor: Cesium.Color.DARK_RED,
+              minimumPixelSize: 750,
+              maximumPixelSize: 750,
+            },
+          });
+
+          entities.add({
+            parent: dummy_danger_animation,
+            label: {
+              id: "my 3D label",
+              text: "TDN048",
+              // pixelOffset: new Cesium.Cartesian2(0.0, 20),
+              font: "10px Helvetica",
+              verticalOrigin: Cesium.VerticalOrigin.TOP,
+              horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
+            },
+            name: "RED cylinder with black outline NO. 2",
+            position: positionProperty2,
+            orientation: new Cesium.VelocityOrientationProperty(
+              positionProperty2
+            ),
+            cylinder: {
+              length: setHeight,
+              topRadius: setRadians,
+              bottomRadius: setRadians,
+              material: Cesium.Color.CRIMSON.withAlpha(0.5),
+              outline: true,
+              outlineColor: Cesium.Color.DARK_RED,
+              minimumPixelSize: 750,
+              maximumPixelSize: 750,
+            },
+          });
+
+          show_cylinder_dangerZone();
+
+          console.log("JER LAEW");
+        } else {
+          show_cylinder();
+        }
+      } else {
+        pauseTime();
+        console.log("Wating Data . . .");
+      }
+    }
+  </script>
+</html>

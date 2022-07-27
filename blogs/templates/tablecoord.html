@@ -1,0 +1,522 @@
+{% load static %}
+
+<head>
+  <title>Two-Line Element (TLE)</title>
+  <meta charset="utf-8" />
+  <link
+    rel="icon"
+    type="image/png"
+    href="https://raw.githubusercontent.com/Apizz789/GISTDA_INTERNSHIP/main/PIC/astrolablogo.png"
+  />
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+    integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor"
+    crossorigin="anonymous"
+  />
+  <script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
+    crossorigin="anonymous"
+  ></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <style>
+
+    .loading {
+      position: absolute;
+      width: 350px;
+      height: 350px;
+      z-index: 199;
+      place-items: center center;
+      /* position: relative; */
+      animation: spin 3.5s infinite;
+    }
+
+    .content {
+      border-radius: 20px;
+      background-color: #ffffff;
+      display: none;
+      /* position: absolute; */
+      z-index: 200;
+    }
+
+    .cesiumContainerBox,
+    .cesiumContainer {
+      display: block;
+      margin: 0 auto;
+      /* height: 300px; */
+      width: 1000px;
+    }
+
+    @keyframes spin {
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+
+    .loading > div:nth-child(1) {
+      height: 75px;
+      width: 75px;
+      background-image: linear-gradient(45deg, #f7d000, #e6970e);
+      position: absolute;
+      top: 100px;
+      left: 100px;
+      box-shadow: 0 0 3px #f7d000;
+      border-radius: 50%;
+      animation: move1 1.5s infinite;
+    }
+
+    @keyframes move1 {
+      50% {
+        transform: translate(-30px, -30px) scale(0.3);
+      }
+    }
+
+    .loading > div:nth-child(2) {
+      height: 45px;
+      width: 45px;
+      background-image: linear-gradient(45deg, #00d7f7, #04c0f5);
+      position: absolute;
+      top: 105px;
+      right: 110px;
+      box-shadow: 0 0 2px #00d7f7;
+      border-radius: 50%;
+      animation: move2 1.5s infinite;
+    }
+
+    @keyframes move2 {
+      50% {
+        transform: translate(15px, -20px) scale(0.55);
+      }
+    }
+
+    .loading > div:nth-child(3) {
+      height: 75px;
+      width: 75px;
+      background-image: linear-gradient(45deg, #f60180, #f7014f);
+      position: absolute;
+      bottom: 100px;
+      right: 100px;
+      box-shadow: 0 0 3px #f60180;
+      border-radius: 50%;
+      animation: move3 1.5s infinite;
+    }
+
+    @keyframes move3 {
+      50% {
+        transform: translate(30px, 30px) scale(0.3);
+      }
+    }
+
+    .loading > div:nth-child(4) {
+      height: 45px;
+      width: 45px;
+      background-image: linear-gradient(45deg, #da00f7, #b501f6);
+      position: absolute;
+      bottom: 105px;
+      left: 110px;
+      border-radius: 50%;
+      animation: move4 1.5s infinite;
+    }
+
+    @keyframes move4 {
+      50% {
+        transform: translate(-15px, 20px) scale(0.55);
+      }
+    }
+  </style>
+
+  <style>
+    h1 {
+      font-size: 30px;
+      color: #fff;
+      text-transform: uppercase;
+      font-weight: 300;
+      text-align: center;
+      margin-bottom: 15px;
+    }
+
+    table {
+      width: 100%;
+      table-layout: fixed;
+    }
+
+    .tbl-header {
+      background: linear-gradient(
+        45deg,
+        rgba(25, 136, 247, 1) 0%,
+        rgba(48, 192, 144, 0.48) 100%
+      );
+      max-height: 500px;
+      max-width: 1800px;
+      border-radius: 40px 40px 0px 0px;
+    }
+
+    .tbl-content {
+      max-height: 500px;
+      max-width: 1800px;
+      overflow-x: auto;
+      margin-top: 0px;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 0px 0px 30px 30px;
+    }
+
+    th {
+      padding: 20px 15px;
+      text-align: left;
+      font-weight: 500;
+      font-size: 12px;
+      color: #fff;
+      text-transform: uppercase;
+    }
+
+    .itemlist:hover {
+      background-image: linear-gradient(
+        90deg,
+        rgba(25, 136, 247, 0.4) 0%,
+        rgba(44, 216, 119, 0.4) 100%
+      );
+    }
+
+    td {
+      padding: 15px;
+      text-align: left;
+      vertical-align: middle;
+      font-weight: 300;
+      font-size: 12px;
+      color: #fff;
+      border-bottom: solid 1px rgba(255, 255, 255, 0.1);
+      border-left: solid 1px rgba(255, 255, 255, 0.1);
+    }
+
+    th {
+      border-right: solid 1px rgba(255, 255, 255, 0.1);
+    }
+
+    /* demo styles */
+
+    @import url(https://fonts.googleapis.com/css?family=Roboto:400,500,300,700);
+
+    body {
+      background: -webkit-linear-gradient(
+        45deg,
+        rgba(25, 136, 247, 1) 100%,
+        rgba(48, 192, 144, 0.48) 100%
+      );
+      background: rgb(0, 0, 0);
+      font-family: "Roboto", sans-serif;
+    }
+
+    section {
+      margin: 50px;
+    }
+
+    .container_table {
+      /* top: 50%;
+      left: 50%; */
+      padding: 10vmin;
+      text-align: center;
+      position: absolute;
+      /* transform: translate(-50%, -50%); */
+    }
+
+    /* for custom scrollbar for webkit browser*/
+
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    ::-webkit-scrollbar-track {
+      -webkit-box-shadow: inset 0 0 6px rgb(255, 255, 255);
+    }
+
+    ::-webkit-scrollbar-thumb {
+      -webkit-box-shadow: inset 0 0 6px rgb(255, 255, 255);
+    }
+
+    .ClockTimeposition {
+      position: absolute;
+      display: block;
+      left: 44%;
+      top: 30%;
+    }
+    .setpoClock {
+      justify-content: center;
+      align-items: center;
+      position: absolute;
+      /* transform: translateY(50%,50%); */
+    }
+
+    .clock {
+      height: 5vh;
+      color: white;
+      font-size: 6vh;
+      font-family: sans-serif;
+      line-height: 5vh;
+      display: flex;
+      background: black;
+      position: relative;
+      /* left: 38%;
+      right: 50%; */
+
+      /*background: green;*/
+      overflow: hidden;
+    }
+
+    .clock::before,
+    .clock::after {
+      content: "";
+      width: 10ch;
+      height: 2vh;
+      background: linear-gradient(to top, transparent, black);
+      position: absolute;
+      z-index: 2;
+    }
+
+    .clock::after {
+      bottom: 0;
+      background: linear-gradient(to bottom, transparent, black);
+    }
+
+    .clock > div {
+      display: flex;
+    }
+
+    .tick {
+      line-height: 5vh;
+    }
+
+    .tick-hidden {
+      opacity: 0;
+    }
+
+    .move {
+      animation: move linear 1s infinite;
+    }
+
+    @keyframes move {
+      from {
+        transform: translateY(0vh);
+      }
+
+      to {
+        transform: translateY(-5vh);
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div>
+    <div class="loading">
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+
+    <center>
+      <img
+        class="imgLogo"
+        src="https://raw.githubusercontent.com/Apizz789/GISTDA_INTERNSHIP/main/PIC/AstroLab-BW.png"
+        alt="HTML tutorial"
+        class=" "
+        style="
+          width: 400px;
+          height: 170px;
+          display: block;
+          margin-top: 20px;
+          margin-left: auto;
+          margin-right: auto;
+        "
+      />
+    </center>
+    <center>
+      <div class="core">
+        <p>Date/Time: <span id="datetime"></span></p>
+        <div class="ClockTimeposition">
+          <div class="setpoClock">
+            <div class="clock">
+              <div class="hours">
+                <div class="first">
+                  <div class="number">0</div>
+                </div>
+                <div class="second">
+                  <div class="number">0</div>
+                </div>
+              </div>
+              <div class="tick">:</div>
+              <div class="minutes">
+                <div class="first">
+                  <div class="number">0</div>
+                </div>
+                <div class="second">
+                  <div class="number">0</div>
+                </div>
+              </div>
+              <div class="tick">:</div>
+              <div class="seconds">
+                <div class="first">
+                  <div class="number">0</div>
+                </div>
+                <div class="second infinite">
+                  <div class="number">0</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <p class="table" id="demo"></p>
+    </center>
+  </div>
+  <!-- <button class="raise" onClick="location.href='/'">
+< Back to Homepage</button> -->
+
+  <div class="container_table">
+    <div class="tbl-header">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <thead>
+          <tr>
+            <th rowspan="2">TLE</th>
+            <th>TIME</th>
+            <th>COORDINATE</th>
+            <th style="border-right: solid 0px rgba(255, 255, 255, 0.1)">
+              SPEED
+            </th>
+          </tr>
+        </thead>
+      </table>
+    </div>
+
+    <div class="tbl-content">
+      <table cellpadding="0" cellspacing="0" border="0">
+        {% for i in data2 %}
+
+        <tbody>
+          <tr class="itemlist">
+            <td rowspan="0" align="left">
+              <pre>{{ i.0 }}</pre>
+              <br/>
+              <pre>{{ i.1 }}</pre>
+            </td>
+            <td rowspan="0" align="center">{{ i.2 }}</td>
+            <td rowspan="0" align="left">{{ i.3 }}</td>
+            <td rowspan="0" align="left">{{ i.4 }}</td>
+          </tr>
+        </tbody>
+
+        {% endfor %}
+      </table>
+    </div>
+  </div>
+
+  <script>
+    $(window).on("load", function () {
+      $(".loading").fadeOut("1000");
+      $(".imgLogo").fadeIn(5000);
+      $(".core").fadeIn(5000);
+      $(".table").fadeIn(5000);
+      $(".container_table").fadeIn(5000);
+    });
+  </script>
+
+  <script>
+    var dt = new Date();
+    document.getElementById("datetime").innerHTML = dt.toLocaleTimeString();
+
+    const d = new Date();
+    let text = d.toString();
+    document.getElementById("demo").innerHTML = text;
+  </script>
+
+  <script>
+    setTimeout("location.reload()", 1800000);
+  </script>
+
+  <script>
+    $(window)
+      .on("load resize ", function () {
+        var scrollWidth =
+          $(".tbl-content").width() - 50 - $(".tbl-content table").width();
+        $(".tbl-header").css({ "padding-right": scrollWidth });
+      })
+      .resize();
+
+    var hoursContainer = document.querySelector(".hours");
+    var minutesContainer = document.querySelector(".minutes");
+    var secondsContainer = document.querySelector(".seconds");
+    var tickElements = Array.from(document.querySelectorAll(".tick"));
+
+    var last = new Date(0);
+    last.setUTCHours(-1);
+
+    var tickState = true;
+
+    function updateTime() {
+      var now = new Date();
+
+      var lastHours = last.getHours().toString();
+      var nowHours = now.getHours().toString();
+      if (lastHours !== nowHours) {
+        updateContainer(hoursContainer, nowHours);
+      }
+
+      var lastMinutes = last.getMinutes().toString();
+      var nowMinutes = now.getMinutes().toString();
+      if (lastMinutes !== nowMinutes) {
+        updateContainer(minutesContainer, nowMinutes);
+      }
+
+      var lastSeconds = last.getSeconds().toString();
+      var nowSeconds = now.getSeconds().toString();
+      if (lastSeconds !== nowSeconds) {
+        //tick()
+        updateContainer(secondsContainer, nowSeconds);
+      }
+
+      last = now;
+    }
+
+    function tick() {
+      tickElements.forEach((t) => t.classList.toggle("tick-hidden"));
+    }
+
+    function updateContainer(container, newTime) {
+      var time = newTime.split("");
+
+      if (time.length === 1) {
+        time.unshift("0");
+      }
+
+      var first = container.firstElementChild;
+      if (first.lastElementChild.textContent !== time[0]) {
+        updateNumber(first, time[0]);
+      }
+
+      var last = container.lastElementChild;
+      if (last.lastElementChild.textContent !== time[1]) {
+        updateNumber(last, time[1]);
+      }
+    }
+
+    function updateNumber(element, number) {
+      //element.lastElementChild.textContent = number
+      var second = element.lastElementChild.cloneNode(true);
+      second.textContent = number;
+
+      element.appendChild(second);
+      element.classList.add("move");
+
+      setTimeout(function () {
+        element.classList.remove("move");
+      }, 990);
+      setTimeout(function () {
+        element.removeChild(element.firstElementChild);
+      }, 990);
+    }
+
+    setInterval(updateTime, 100);
+  </script>
+</body>

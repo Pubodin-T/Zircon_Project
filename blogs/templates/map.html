@@ -1,0 +1,2239 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<head>
+  <title>GISTDA</title>
+  <link rel = "icon" type = "image/png" href = "https://raw.githubusercontent.com/Apizz789/GISTDA_INTERNSHIP/main/PIC/astrolablogo.png">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js"> </script>
+
+  <script src=
+  "https://cdn.jsdelivr.net/npm/html2canvas@1.0.0-rc.5/dist/html2canvas.min.js">
+      </script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+  <script src="https://cesium.com/downloads/cesiumjs/releases/1.82/Build/Cesium/Cesium.js"></script>
+  <link href="https://cesium.com/downloads/cesiumjs/releases/1.82/Build/Cesium/Widgets/widgets.css" rel="stylesheet">
+  <script src="https://sandcastle.cesium.com/Sandcastle-header.js"></script>
+
+
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+  <script src="https://kit.fontawesome.com/abc6e15c15.js" crossorigin="anonymous"></script>
+
+
+  
+
+</head>
+
+
+
+<style>
+  @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap");
+
+  @font-face {
+      font-family: AstroSpace;
+      src: url(/fonts/AstroSpace.ttf);
+  }
+ h1, h2,h3, h4,label, p {
+  color: #ffffff;
+  text-shadow: 1px 0px 3px rgba(0, 0, 0, 0.42);
+}
+
+* {
+  font-family:  "Montserrat", sans-serif !important;   
+}
+
+body{
+  background-color: #000000;
+}
+
+
+/* for custom scrollbar for webkit browser*/
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgb(255, 255, 255);
+}
+
+::-webkit-scrollbar-thumb {
+  -webkit-box-shadow: inset 0 0 6px rgb(255, 255, 255);
+}
+
+
+.frame2,
+.frame3 {
+    position: relative;
+    display: none
+}
+
+
+
+
+#card {
+  width: 600px;
+  height: 0;
+  transform-style: preserve-3d;
+  transition: transform 1s;
+}
+
+#card div {
+  display: block;
+  backface-visibility: hidden;
+}
+
+
+#card .frame1 {
+  transform: rotateY( 180deg);
+}
+#card.flipped {
+  transform: rotateY(180deg);
+}
+
+.frame0, .frame1 {
+
+  z-index:9999;
+}
+
+.frame1 {
+  display: none
+}
+
+
+
+</style>
+
+
+<body>
+
+ 
+  <div id = "sirace"> 
+    <center>
+      <div id="cesiumContainer" style="position: absolute; top: 0; left:0; right: 0;  bottom: 0;z-index:200;" >
+
+          <div>
+            <img
+            src="https://raw.githubusercontent.com/Apizz789/GISTDA_INTERNSHIP/main/PIC/AstroLab-BW.png"
+            alt="ArtoLab Logo" class=" mb-3" style="z-index: 500;  -webkit-filter: drop-shadow(1px 1px 1px #222); filter: drop-shadow(1px 1px 1px #222);  position:absolute;  width: 140px; height: 70px; left:45%; right:auto;  bottom: 0; margin-top: 10px;">
+
+        </div>
+      
+      </div>
+    </center>
+
+
+      <div id="card"  style="position: absolute;  z-index:501" >
+
+        <div class="frame0" >
+          <div  class= "m-3" style="position: absolute; top: 0; right: 0;  left:0; z-index:295; border: 1px dotted #ffffff; border-radius: 20px; box-shadow: 5px 4px 9px 3px rgba(0, 0, 0, 0.2); background-image: linear-gradient(135deg, rgba(24, 247, 27, 0.44) 0%, rgba(24, 161, 247, 1) 100%); width: 600px; height:60px">
+            <h4 class="p-3 m-0 text-center" >【SIRACE | GISTDA】</h4>
+          </div>
+      
+          <div class="hamburger-menu" style="position: absolute; top: 0; right: 0;  left:0; z-index:296;">
+                <input id="menu__toggle" type="checkbox" class="menu__btn" style="width: 1px; height:1px;"/>
+                <label class="mt-3 menu__btn " for="menu__toggle">
+                  <span></span>
+                </label>
+                  <ul class="menu__box">
+      
+                    <center>
+                      <div  class="m-3 p-3" style="position: absolute; z-index:300; width: 600px; height:800px; border: 1px dotted #ffffff; box-shadow: 5px 4px 9px 3px rgba(0, 0, 0, 0.2); border-radius: 20px; background-image: linear-gradient(135deg, rgba(24, 247, 27, 0.44) 0%, rgba(24, 161, 247, 0.52) 100%); ">
+                            
+                        <div style="width: 300px;">
+                            <img src="https://raw.githubusercontent.com/Apizz789/GISTDA_INTERNSHIP/main/logo-footer.png" alt="HTML tutorial" style="width:300px;height:125px; -webkit-filter: drop-shadow(1px 1px 1px #222); filter: drop-shadow(1px 1px 1px #222); ">
+                        </div>
+                            
+                        <div  class="mt-3">
+                            {% csrf_token %}
+                    
+                            <label for="site"><h3>Choose a launchsite*</h3></label>
+                    
+                            <select class="btn btn-danger" id="site" name="site" onchange="get_launchsite()"  >
+                              
+                              {% comment %} {% for k in data %}
+                              <option value="{{ k.1 }}">{{k.1}}</option>
+                              {% endfor %} {% endcomment %}
+      
+                              <option value="0" selected disabled hidden selected ="selected " >-- Launchsite --</option>
+                              <option value="Alcantara Launch Center">Alcantara Launch Center</option>
+                              <option value="Baikonur Cosmodrome (Tyuratam)">Baikonur Cosmodrome (Tyuratam)</option>
+                              <option value="Dombarovskiy ICBM Base">Dombarovskiy ICBM Base</option>
+                              <option value="Edwards AFB">Edwards AFB</option>
+                              <option value="Gran Canaria, Gando AFB">Gran Canaria, Gando AFB</option>
+                              <option value="Guiana Space Center (Kourou)">Guiana Space Center (Kourou)</option>
+                              <option value="Hammaguira">Hammaguira</option>
+                              <option value="Indian Ocean Platform (San Marco)">Indian Ocean Platform (San Marco)</option>
+                              <option value="Jiuquan SLC (Shuang Cheng Tzu)">Jiuquan SLC (Shuang Cheng Tzu)</option>
+                              <option value="Kagoshima Space Center (Uchinoura)">Kagoshima Space Center (Uchinoura)</option>
+                              <option value="Kapustin Yar MSC">Kapustin Yar MSC</option>
+                              <option value="Kennedy Space Center">Kennedy Space Center</option>
+                              <option value="Kodiak Launch Complex">Kodiak Launch Complex</option>
+                              <option value="Mid-Atlantic Regional Spaceport">Mid-Atlantic Regional Spaceport</option>
+                              <option value="Naval Ordnance Test S.(China Lake)">Naval Ordnance Test S.(China Lake)</option>
+                              <option value="Plesetsk Cosmodrome">Plesetsk Cosmodrome</option>
+                              <option value="Poker Flat Research Center">Poker Flat Research Center</option>
+                              <option value="Sea Launch">Sea Launch</option>
+                              <option value="Semnan">Semnan</option>
+                              <option value="Sohae Satellite Launching Station">Sohae Satellite Launching Station</option>
+                              <option value="Sriharikota Space Center">Sriharikota Space Center</option>
+                              <option value="Svobodniy">Svobodniy</option>
+                              <option value="Taiyuan SLC (Wuzhai)">Taiyuan SLC (Wuzhai)</option>
+                              <option value="Tanegashima Space Center">Tanegashima Space Center</option>
+                              <option value="Tonghae (Musudan Ri)">Tonghae (Musudan Ri)</option>
+                              <option value="US Army Kwajalein Atoll">US Army Kwajalein Atoll</option>
+                              <option value="Vandenberg AFB (WTR)">Vandenberg AFB (WTR)</option>
+                              <option value="Wallops Flight Facility">Wallops Flight Facility</option>
+                              <option value="Woomera Rocket Range">Woomera Rocket Range</option>
+                              <option value="Xichang Satellite Launch Center">Xichang Satellite Launch Center</option>
+                              <option value="Yavne Launch Facility (Palmachim)">Yavne Launch Facility (Palmachim)</option>
+      
+      
+      
+                            </select>
+                    
+                        
+                        
+                            <div class="mt-3">
+                                  <h3> Input your data* </h3>
+                                  <textarea onkeydown="return checkInputKey(event.key)" class="form-control row-fluid" id="show-file" name="newdata1" type="text" 
+                                  style=" width: 550px; overflow-y: scroll; resize:none text-align: center;" cols="70" rows="10" align="center"
+                                  placeholder="Copy and DoubleClick to Paste your Coordinates here.  &#10;Only Patterns {N,S}DDMMSS{E,W}DDDMMSS  &#10;Ex. N012345E0123456 &#10;"></textarea>   
+                            </div>
+                    
+                            <div class="mt-2">
+                                  <h3 class="p-3">Or Drag data</h3>
+                                <div class="file-upload-wrapper">
+                                  <input type="file" accept=".txt" onchange="showFile()" id="input-file-now-custom-2"
+                                    class="p-3 file-upload btn btn-secondary " style="width: 500px;" data-height="20" />
+                                </div> 
+                            </div>
+                    
+                            {% comment %} <div class="m-3 input_field_wrap"></div> {% endcomment %}
+                            <div class="m-3 mt-2">
+                              
+                              {% comment %} <button id="backtogg" class="mt-3 btn btn-secondary" style="width: 200px; type="button"  >GG</button> {% endcomment %}
+                              <button id="Checkall" class="mt-3 btn btn-secondary" style="width: 200px;" type="button" onClick="get_launchsite()" >PLOT</button>
+                              <button id="Showanimation" onClick="Showsimulationfunction()" class=" mt-3 btn btn-secondary" style="width: 200px;" type="button"   disabled>SIMULATION</button>
+                                {% comment %} https://codepen.io/bartekd/pen/AjbRjy <<<<<<<< TEXT ANIMATION {% endcomment %}
+                        </div>
+                      </div>
+                    </center>
+                </ul>
+          </div>
+        </div>
+      
+      
+        <div class="frame1" >
+          <div  class= "m-3" style="position: absolute; top: 0; right: 0;  left:0; z-index:299; border: 1px dotted #ffffff; border-radius: 20px; box-shadow: 5px 4px 9px 3px rgba(0, 0, 0, 0.2); background-image: linear-gradient(135deg, rgba(221, 0, 250, 0.44) 0%, rgba(255, 0, 0, 0.52) 100%); width: 600px; height:60px">
+            <h4 class="p-3 m-0 text-center" >SIMULATION</h4>
+          </div>
+        
+          <div class="hamburger-menu2" style="position: absolute; top: 0; right: 0;  left:0; z-index:299;">
+                <input id="menu__toggle2" type="checkbox" class="menu__btn2" style="width: 1px; height:1px;"/>
+                <label class="mt-3 menu__btn2 " for="menu__toggle2">
+                  <span></span>
+                </label>
+                  <ul class="menu__box2">
+        
+                    <center>
+                      <div  class="m-3 p-3" style="position: absolute; z-index:300;  border: 1px dotted #ffffff; box-shadow: 5px 4px 9px 3px rgba(0, 0, 0, 0.2); border-radius: 20px; background-image: linear-gradient(135deg, rgba(221, 0, 250, 0.44) 0%, rgba(255, 0, 0, 0.52) 100%); width: 600px; height:800px">
+                            
+                        <div style="width: 300px;">
+                            <img src="https://raw.githubusercontent.com/Apizz789/GISTDA_INTERNSHIP/main/logo-footer.png" alt="HTML tutorial" style="width:300px;height:125px; -webkit-filter: drop-shadow(1px 1px 1px #222); filter: drop-shadow(1px 1px 1px #222); ">
+                        </div>
+                            
+                        <div  class="mt-3">
+                        
+                    
+                          
+                         
+                            <div class="mt-5" style="height:400px;">
+
+                              <label class="mt-1 mb-2">【----------------------Rocket launch base----------------------】</label><br>
+                              <div class="mt-4" style="height:100px;">
+                                <h3 id="get_id_launcher_name"></h3>
+                                <p class="mt-2" id="get_id_launcher_coord"></p>
+                                </div>
+        
+                              <label class="mb-2">【----------------------Risk point list----------------------】</label>
+                              <div class="mt-2" style="height:150px;" id="get_id_risk_point">
+                                
+                              </div>
+                              
+                            </div>
+                    
+                            <div class="mt-1">
+                              <button id="B_Stop" class="mt-3 btn btn-secondary" style="width: 130px; type="button" onClick="pauseTime()" >Stop</button>
+                              <button id="B_Play" class="mt-3 btn btn-secondary" style="width: 130px; type="button onClick="playTime()"  >Play</button>
+                              <button id="B_Repeat" class="mt-3 btn btn-secondary" style="width: 130px; type="button" onClick="resetTime()" >Repeat</button>
+                              
+                              
+                            </div>
+        
+                            <div class="mt-1">
+                              <button id="B_Speed" class="mt-3 btn btn-secondary" style="width: 196px; type="button" onClick="Slow()" >1x Slow</button>
+                              <button id="B_Slow" class="mt-3 btn btn-secondary" style="width: 196px; type="button" onClick="Speed()" >1x Speed</button>
+        
+                              
+                              
+                            </div>
+        
+                            <div class="mt-1">
+                              <button id="backtomenu" class=" mt-3 btn btn-secondary" style="width: 195px; type="button onClick="Showmainmenufunction()">Back</button>
+                            
+        
+                              
+                              
+                            </div>
+                    
+                            {% comment %} <div class="m-3 input_field_wrap"></div> {% endcomment %}
+                          
+                      </div>
+                    </center>
+                </ul>
+          </div>
+        </div>
+      
+
+
+      </div>
+
+  </div>
+  
+
+
+  {% comment %} MODALLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL {% endcomment %}
+
+  <div>
+    <div class="modal fade" id="InvalidModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" >
+      <div class="modal-dialog modal-dialog-centered" role="document" >
+        <div class="modal-content" >
+          <div class="modal-header" >
+            <h5 class="modal-title" id="exampleModalLabel">Input Error</h5>
+
+            </button>
+          </div>
+          <div class="modal-body">
+           Wrong Input Data.
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" style="width: 200px;" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+
+ <script >
+
+  
+  var card = document.getElementById('card');
+var B_animation =  document.getElementById('Showanimation');
+var B_mainmenu =  document.getElementById('backtomenu');
+
+
+  B_animation.addEventListener('click', function() {
+    var temp_for_ani_coor = String([Launcher_to_animation[0],Launcher_to_animation[1]])
+    var result = String(Centroid_to_animation);
+    var temp_for_ani_cen = result.match(/[^,]+,[^,]+/g);
+
+    $('#get_id_launcher_name').text(Launcher_to_animation[2]);
+    $('#get_id_launcher_coord').text(temp_for_ani_coor);
+
+
+    for(let i = 0; i < Centroid_to_animation.length; i++){
+      
+      $('#get_id_risk_point').append('<p id="cent_no'+ i +'" class="cent_box">  </p>');
+      $("#cent_no" + i).text(String(temp_for_ani_cen[i]))
+  
+    }
+
+    console.log(temp_for_ani_cen);
+
+
+        card.classList.toggle('flipped');
+        $('.frame0').fadeOut(500);
+        $('.frame1').fadeIn(100);
+
+    }, false);
+
+  B_mainmenu.addEventListener('click', function() {
+    viewer.entities.removeAll();
+        card.classList.toggle('flipped');
+        $('.frame0').fadeIn(500);
+        $('.frame1').fadeOut(100);
+
+     
+
+      
+
+    }, false);
+
+
+
+
+
+    // pictrue disselection
+    function disableselect(e) {
+      return false
+  }
+  function reEnable() {
+      return true
+  }
+  //if IE4
+  document.onselectstart = new Function("return false")
+  //if NS6
+  if (window.sidebar) {
+      document.onmousedown = disableselect
+      document.onclick = reEnable
+  }
+  document.ondragstart = function () { return false; };
+
+
+
+
+
+
+  // click disabled
+
+  var message = "Dont Do That !! :) ";
+
+  function clickIE4() {
+      if (event.button == 2) {
+          alert(message);
+          return false;
+      }
+  }
+
+  function clickNS4(e) {
+      if (document.layers || document.getElementById && !document.all) {
+          if (e.which == 2 || e.which == 3) {
+              alert(message);
+              return false;
+          }
+      }
+  }
+
+  if (document.layers) {
+      document.captureEvents(Event.MOUSEDOWN);
+      document.onmousedown = clickNS4;
+  }
+  else if (document.all && !document.getElementById) {
+      document.onmousedown = clickIE4;
+  }
+
+  document.oncontextmenu = new Function("alert(message);return false")
+
+ </script>
+ 
+
+
+
+<style>
+
+  textarea::placeholder {
+    text-align:center;
+  }
+  
+
+  #menu__toggle {
+    opacity: 0;
+  }
+  #menu__toggle:checked + .menu__btn > span {
+    transform: rotate(45deg);
+  }
+  #menu__toggle:checked + .menu__btn > span::before {
+    top: 0;
+    transform: rotate(0deg);
+  }
+  #menu__toggle:checked + .menu__btn > span::after {
+    top: 0;
+    transform: rotate(90deg);
+  }
+  #menu__toggle:checked ~ .menu__box {
+    left: 0 !important;
+  }
+  .menu__btn {
+    position: absolute;
+    top: 28px;
+    left: 540px;
+    width: 50px;
+    height: auto;
+    cursor: pointer;
+    z-index: 1;
+  }
+  .menu__btn > span,
+  .menu__btn > span::before,
+  .menu__btn > span::after {
+    display: block;
+    position: absolute;
+    width: 100%;
+    height: 5px;
+    background-color: #ffffff;
+    transition-duration: .25s;
+  }
+  .menu__btn > span::before {
+    content: '';
+    top: -8px;
+  }
+  .menu__btn > span::after {
+    content: '';
+    top: 8px;
+
+  }
+  .menu__box {
+    display: block;
+    position: absolute;
+    top: 10px;
+    left: -125%;
+    z-index: 9999;
+    margin: 0;
+    padding: 80px 0;
+    padding-top: 60px;
+    list-style: none;
+    width: 1px;
+    height: 1px;
+    {% comment %} background-color: #ECEFF1; {% endcomment %}
+    opacity: 0.8;
+    box-shadow: 2px 2px 6px rgba(0, 0, 0, .4);
+    transition-duration: .75s;
+  }
+  .menu__item {
+    display: inline-block;
+    padding: 12px 24px;
+    color: #333;
+    font-family: 'Roboto', sans-serif;
+    font-size: 20px;
+    font-weight: 600;
+    text-decoration: none;
+    transition-duration: .75s;
+    width: 170px;
+  }
+  .menu__item:hover {
+    background-color: #CFD8DC;
+  }
+
+
+  {% comment %} TOGGLE 2222222222222222222222 {% endcomment %}
+
+  #menu__toggle2 {
+    opacity: 0;
+  }
+  #menu__toggle2:checked + .menu__btn2 > span {
+    transform: rotate(45deg);
+  }
+  #menu__toggle2:checked + .menu__btn2 > span::before {
+    top: 0;
+    transform: rotate(0deg);
+  }
+  #menu__toggle2:checked + .menu__btn2 > span::after {
+    top: 0;
+    transform: rotate(90deg);
+  }
+  #menu__toggle2:checked ~ .menu__box2 {
+    left: 0 !important;
+  }
+  .menu__btn2 {
+    position: absolute;
+    top: 28px;
+    left: 540px;
+    width: 50px;
+    height: auto;
+    cursor: pointer;
+    z-index: 1;
+  }
+  .menu__btn2 > span,
+  .menu__btn2 > span::before,
+  .menu__btn2 > span::after {
+    display: block;
+    position: absolute;
+    width: 100%;
+    height: 5px;
+    background-color: #ffffff;
+    transition-duration: .25s;
+  }
+  .menu__btn2 > span::before {
+    content: '';
+    top: -8px;
+  }
+  .menu__btn2 > span::after {
+    content: '';
+    top: 8px;
+
+  }
+  .menu__box2 {
+  
+    display: block;
+    position: absolute;
+    top: 10px;
+    left: -125%;
+    z-index: 1;
+    margin: 0;
+    padding: 80px 0;
+    padding-top: 60px;
+    list-style: none;
+    width: 1px;
+    height: 1px;
+    {% comment %} background-color: #ECEFF1; {% endcomment %}
+    opacity: 0.8;
+    {% comment %} box-shadow: 2px 2px 6px rgba(0, 0, 0, .4); {% endcomment %}
+    transition-duration: .75s;
+  }
+  .menu__item2 {
+    display: inline-block;
+    padding: 12px 24px;
+    color: #333;
+    font-family: 'Roboto', sans-serif;
+    font-size: 20px;
+    font-weight: 600;
+    text-decoration: none;
+    transition-duration: .75s;
+    width: 170px;
+  }
+  .menu__item2:hover {
+    background-color: #CFD8DC;
+  }
+
+</style>
+
+
+
+  
+
+</body>
+
+<script>
+
+
+
+  var inputF = document.getElementById("show-file");
+  function showAlert() {
+    inputF.setAttribute('value', '     - No Data -     ');
+    alert("=== DATA ===\n\n" + inputF.value + "\n\nYour data is Are here!");
+  }
+
+  if (window.File && window.FileReader && window.FileList && window.Blob) {
+    function showFile() {
+      var showfile = document.getElementById('show-file');
+      var file = document.querySelector('input[type=file]').files[0];
+      var reader = new FileReader()
+      var textFile = /text.*/;
+
+      if (file.type.match(textFile)) {
+        reader.onload = function (event) {
+          $( "#Showanimation" ).attr( "disabled", true );
+          showfile.value = event.target.result.match(/([N,S]\d{6}[E,W]\d{7}(\+))|([N,S]\d{6}[E,W]\d{7})/g, '');
+          showfile.value = showfile.value.replace(/(\r\n|\n|\r|\,)/gm, " ");
+        }
+      } else {
+        showfile.value = "WRONG INPUT VALUE !!";
+      }
+      reader.readAsText(file);
+    }
+  } else {
+    alert("Your browser is too old to support HTML5 File API. :) ");
+  }
+
+
+
+  // NEW LINE DISABLE ----------------------------------------------------------------------------------
+  $(".form-control").keydown(function(e){
+      this.value = this.value.toUpperCase();
+      if ( ((e.keyCode == 13 && !e.shiftKey ) || e.keyCode == 188) )
+      {
+        e.preventDefault();
+        //alert("ok");
+        return false;
+        }
+    });
+
+
+  // REGEX When Click (Copy And Paste) ----------------------------------------------------------------------------------
+
+
+  $('#input-file-now-custom-2').click(function() {
+    $( "#Showanimation" ).attr( "disabled", true );
+    $( "#Checkall" ).attr( "disabled", false );
+
+});
+
+
+  $('.form-control').click(function() {
+        $( "#Showanimation" ).attr( "disabled", true );
+        $( "#Checkall" ).attr( "disabled", false );
+});
+
+
+ $('.form-control').dblclick(function() {
+      navigator.clipboard.readText().then(text => {
+
+        let toString = obj => Object.entries(obj).map(([k, v]) => `${v}`).join(' ');
+          if(text.match(/([N,S]\d{6}[E,W]\d{7}(\+))|([N,S]\d{6}[E,W]\d{7})/g, '')){
+            
+            text = text.match(/([N,S]\d{6}[E,W]\d{7}(\+))|([N,S]\d{6}[E,W]\d{7})/g, '');
+            
+            text = toString(text)
+          
+            document.getElementById("show-file").value = text;
+
+          };
+        })
+        .catch(err => {
+        alert("Wrong Input Data.")
+        });
+     
+     });  
+
+
+
+    // REGEX When Input ----------------------------------------------------------------------------------
+
+    {% comment %} document.querySelector(".form-control").addEventListener('input', function(){
+      this.value = this.value.replace(/(\r\n|\n|\r|\,)/gm, " ");
+   })  {% endcomment %}
+
+  
+
+   // KeyCode Option  ----------------------------------------------------------------------------------
+   function checkInputKey(key) {
+    return (key >= '0' && key <= '9') || ['ArrowLeft','ArrowRight','ArrowUp','ArrowDown','n', 'e', 'w', 's','N', 'E', 'W', 'S', 'Backspace', '+', ' '].includes(key);
+  }
+
+
+
+  function hidename(){
+
+
+  }
+
+</script>
+
+
+<script>
+  // https://www.latlong.net/ Latitude and Longitude Finder -> GPS Coordinates
+  // DMS to Latitude and Longitude = Degrees + (Minutes/60) + (Seconds/3600)
+
+  // Token for cesium 3D
+  Cesium.Ion.defaultAccessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI3ZjQ3MDZlOS1jMGQyLTRmMDctODhkZi1mMWI0MDFiYTllNTMiLCJpZCI6OTE4MjMsImlhdCI6MTY1NDU4MDQzNH0.qeZfFnvOr8ZhvCqR744X_wiSBoow1c8htCGHcx7BkW4';
+  // Plot Focus THAILAND.
+  Cesium.Camera.DEFAULT_VIEW_RECTANGLE = Cesium.Rectangle.fromDegrees(63.076400, -31.700130, 139.064604, 52.234528);
+
+  const cesiumTerrainProvider = Cesium.createWorldTerrain({
+    requestVertexNormals: true,
+    requestWaterMask:true
+  });
+
+  var viewer = new Cesium.Viewer('cesiumContainer',{
+    geocoder:false,
+    baseLayerPicker:false,
+    navigationHelpButton:false,
+    terrainProvider: cesiumTerrainProvider,
+  });
+
+  viewer._cesiumWidget._creditContainer.style.display = "none";
+  viewer.animation.container.style.visibility = "hidden";
+  viewer.timeline.container.style.visibility = "hidden";
+
+
+  
+  window.viewer = viewer;
+  const toolbar = document.querySelector("div.cesium-viewer-toolbar");
+  const modeButton = document.querySelector("span.cesium-sceneModePicker-wrapper");
+  const myButton = document.createElement("button");
+  const myButton2 = document.createElement("button");
+  myButton.classList.add("cesium-button", "cesium-toolbar-button","hide_btn");
+  myButton.setAttribute("id","focushide");
+  myButton2.setAttribute("id","screenshot");
+
+
+  myButton.innerHTML = "<h4>👁</h4>";
+  myButton2.classList.add("cesium-button", "cesium-toolbar-button");
+  myButton2.innerHTML = '[◉"]';
+  toolbar.insertBefore(myButton, modeButton);
+  toolbar.insertBefore(myButton2, modeButton);
+
+
+
+  const entitiesR = viewer.entities;  // RED ZONE
+  const entitiesT = viewer.entities; // THAI TEXT
+  const entitiesM = viewer.entities; // ALL MODEL > POLYLINE ROCKET LAUNCHERS
+  const entitiesMF = viewer.entities; // FOCUS MODEL > POLYLINE ROCKET LAUNCHERS
+
+  const launch_site_position= [];
+  {% for i in data %}
+  launch_site_position.push([{{i.latitude}},{{i.longitude}},"{{i}}"]) ;
+  {% endfor %}  
+  
+
+  const G_Model = entitiesM.add(new Cesium.Entity());
+  const G_FModel = entitiesMF.add(new Cesium.Entity());
+
+  G_FModel.show = false
+
+
+
+  const text_name_tha = entitiesT.add(new Cesium.Entity());
+  const testPolygon = entitiesR.add(new Cesium.Entity());
+
+ 
+  var dataSource = Cesium.GeoJsonDataSource.load('https://raw.githubusercontent.com/Apizz789/GISTDA_INTERNSHIP/main/GEO_JSON/TH_Json1.json',
+  {
+    stroke: Cesium.Color.SKYBLUE,
+    fill: Cesium.Color.SLATEBLUE.withAlpha(0.5),
+    strokeWidth: 3,
+
+  }); 
+ var nameTHAI_dataSource =[]
+  var dataProvicesinThailand = []
+   dataSource.then(function(data) {
+     
+      // Change the arcType to GEODESIC, which is what it was in CesiumJS 1.53.
+      for (var i = 0; i < data.entities.values.length; i++) {
+          var entity = data.entities.values[i];
+          
+          
+          if (Cesium.defined(entity.polygon)) {
+              entity.polygon.arcType = Cesium.ArcType.GEODESIC;
+          }
+          var name_Provices = data.entities.values[i].properties._PV_TN._value;
+          dataProvicesinThailand.push(name_Provices);
+      }
+
+
+     
+      
+  }); 
+ 
+  
+  viewer.dataSources.add(dataSource); 
+
+  var Centroid_to_animation = []
+  var Launcher_to_animation = []
+  var Destination_to_animation = []
+  var Sum_Coordinate_to_animation = []
+
+
+  function test() {
+    console.log("LOVE LOVE")
+  }
+
+  DrawModel();
+  async function DrawModel() {
+
+
+    const random = Math.floor(Math.random() * launch_site_position.length);
+
+    console.log("| <RANDOM DATA> | "+ " Launchsite : "+ launch_site_position[random][2] +" Latitude : " +launch_site_position[random][0]+ " Longitude : "+launch_site_position[random][1]);
+
+    var destination_coordinate = [100.5018, 13.7563];
+
+    var coord_A = [ destination_coordinate[1],destination_coordinate[0]];
+    var coord_B = [launch_site_position[random][0],launch_site_position[random][1]];
+
+    
+    const resource = await Cesium.IonResource.fromAssetId(1121948);
+    
+
+    clearfunction();
+
+    var zeroHeight = 0.0;
+    var startHeight = 35000.0;
+    var endHeight = 200000.0;
+
+    for (let k = 0; k < launch_site_position.length; k++) {
+
+
+          const polyLinePlot= viewer.entities.add({
+            name : 'Line to '+ startHeight +"M.",
+            id : 'Line'+[k],
+            position : Cesium.Cartesian3.fromDegrees(coord_B[1], coord_B[0], startHeight),
+            polyline : {
+                positions: [
+                    Cesium.Cartesian3.fromDegrees(coord_B[1], coord_B[0], zeroHeight),
+                    Cesium.Cartesian3.fromDegrees(coord_B[1], coord_B[0], startHeight)
+                ],
+                width : new Cesium.ConstantProperty(2),
+                material : Cesium.Color.RED,
+                followSurface : new Cesium.ConstantProperty(false)
+            }
+        });
+
+          const polyLineDistance = viewer.entities.add({
+            name: "PolyLine Distance THAILAND to ETC.",
+            id: "PolyLine"+[k],
+
+            polyline: {
+              // This callback updates positions each frame.
+              positions: Cesium.Cartesian3.fromDegreesArrayHeights([coord_A[1], coord_A[0],endHeight, coord_B[1], coord_B[0],startHeight]),
+              material: Cesium.Color.RED,
+              width: 2,
+            
+            },
+          });   
+
+          entitiesM.add({
+            name: launch_site_position[k][2],
+            parent: G_Model,
+            model: { uri: resource, minimumPixelSize: 60, maximumPixelSize: 80 },
+            position: Cesium.Cartesian3.fromDegrees(launch_site_position[k][1], launch_site_position[k][0], 0),
+            
+          });  
+
+          entitiesM.add({
+            name: launch_site_position[k][2],
+            parent: G_Model,
+            id: "Circle"+[k],
+            position: Cesium.Cartesian3.fromDegrees(launch_site_position[k][1], launch_site_position[k][0], 0),
+            ellipse: {
+              semiMinorAxis: 80000.0,
+              semiMajorAxis: 80000.0,
+              material: Cesium.Color.YELLOW.withAlpha(0.3),
+              outline: true, // height must be set for outline to display
+              outlineWidth: 10,
+              outlineColor: Cesium.Color.YELLOW,
+              
+            },
+            
+            label: {
+              text: launch_site_position[k][2],
+              font: '10pt monospace',
+              style: Cesium.LabelStyle.FILL_AND_OUTLINE,
+              outlineWidth: 2,
+              verticalOrigin: Cesium.VerticalOrigin.TOP,
+              pixelOffset: new Cesium.Cartesian2(0, 20),
+              scaleByDistance: new Cesium.NearFarScalar(1.5e2, 2.0, 1.5e7, 0.5),
+              
+              }, 
+          });
+
+      
+      
+    }  
+
+    console.log("From: " + coord_A + " Destination: " + coord_B);
+
+
+    
+   
+  }
+  
+  
+  var options = [];
+  var options_testInput = [];
+
+ 
+  // manage function
+
+  var testCoordNotam = [];
+
+  {% for n in notam %}
+  {% for i in n %}
+  testCoordNotam.push({
+    long_notam: {{ i.1 }},
+    latt_notam : {{ i.0 }},
+      })
+  {% endfor %}
+  {% endfor %}
+
+
+
+  var sum_global_coordinate = [];
+
+  function NOTAM_Optimize() {
+
+    TestMyfunction();
+
+    let toString = obj => Object.entries(obj).map(([k, v]) => `${v}`).join(' ');
+    var testinput1 = document.getElementById("show-file").value.match(/([N,S]\d{6}[E,W]\d{7}(\+))|([N,S]\d{6}[E,W]\d{7})/g, '');
+
+    {% comment %} testinput1 = text.match(/([N,S]\d{6}[E,W]\d{7}(\+))|([N,S]\d{6}[E,W]\d{7})/g, ''); {% endcomment %}
+    {% comment %} console.log(typeof text,text) {% endcomment %}
+    testinput1 = toString(testinput1)
+    document.getElementById("show-file").value = testinput1;
+    console.log(testinput1);
+   
+    if (testinput1.at(-1) === '+') {
+      testinput1 = testinput1.slice(0, -1)
+      var testinput_splited = testinput1.split("+");
+      console.log(testinput_splited);
+   } else {
+    var testinput_splited = testinput1.split("+");
+   }
+   
+
+    for (let t = 0; t < (testinput_splited.length); t++) {
+      let polygon_list = testinput_splited[t].split(' ').filter(function (i) { return i })
+      {% comment %} console.log(polygon_list); {% endcomment %}
+      var sum_coordinate = []
+
+  
+        console.log(polygon_list);
+
+        console.log( "Poloygon Number : " + (t+1))
+
+        for (let u = 0; u < polygon_list.length; u++) {
+
+          let upolygon = polygon_list[u];
+
+          console.log("NOTAM : " + upolygon);
+
+          // Decimal degrees = Degrees + (Minutes/60) + (Seconds/3600)
+
+          var DMS_Latt = 0;
+          var DMS_Long = 0;
+          if (upolygon[7] === "E") {
+            DMS_Long = parseFloat(upolygon[8] + upolygon[9] + upolygon[10]) + (parseFloat(upolygon[11] + upolygon[12]) / 60) + (parseFloat(upolygon[13] + upolygon[14]) / 3600);
+            console.log("Longitude : " + DMS_Long);
+          }
+          else if (upolygon[0] === "W") {
+            DMS_Long = -1 * (parseFloat(upolygon[8] + upolygon[9] + upolygon[10]) + (parseFloat(upolygon[11] + upolygon[12]) / 60) + (parseFloat(upolygon[13] + upolygon[14]) / 3600));
+            console.log("Longitude : " + DMS_Long);
+          }
+          sum_coordinate.push(DMS_Long)
+
+          if (upolygon[0] === "N") {
+            DMS_Latt = parseFloat(upolygon[1] + upolygon[2]) + (parseFloat(upolygon[3] + upolygon[4]) / 60) + (parseFloat(upolygon[5] + upolygon[6]) / 3600);
+            console.log("Latitude : " + DMS_Latt);
+          }
+          else if (upolygon[0] === "S") {
+            DMS_Latt = -1 * (parseFloat(upolygon[1] + upolygon[2]) + (parseFloat(upolygon[3] + upolygon[4]) / 60) + (parseFloat(upolygon[5] + upolygon[6]) / 3600));
+            console.log("Latitude : " + DMS_Latt);
+          }
+          sum_coordinate.push(DMS_Latt)
+
+
+        
+          var Latitude = DMS_Latt;
+          var Longitude = DMS_Long;
+        }
+        
+        console.log(sum_coordinate);
+        sum_global_coordinate.push(sum_coordinate);
+        Sum_Coordinate_to_animation.push(sum_coordinate);
+
+        entitiesR.add({
+          parent: testPolygon,
+          name: "Red Red RUN!! No."+[t],
+          id: "polypolyjaa"+[t],
+
+          polygon: {
+            hierarchy: Cesium.Cartesian3.fromDegreesArray(sum_coordinate),
+            material: Cesium.Color.RED.withAlpha(0.5),
+            height: 0.0,
+            outline: true,
+            outlineWidth: 50,
+            outlineColor: Cesium.Color.RED,
+          },
+          zIndex: 1,
+        });
+
+
+       
+
+    }
+
+    {% comment %} console.log(sum_global_coordinate); {% endcomment %}
+    
+  }
+  
+  
+  function TestMyfunction() {
+    var countNum1 = 10;
+    for(let countPoly = 0; countPoly < countNum1 ; countPoly++){
+      viewer.entities.removeById("polypolyjaa"+[countPoly]);
+    }
+    console.log("Success Clear All Polygon")
+   }
+
+   
+   var temp_location_launchsite = [];
+
+   function clearfunction(){
+    var countNum2 = 50;
+    for(let countPoly2 = 0; countPoly2 < countNum2 ; countPoly2++){
+      viewer.entities.removeById("PolyLine"+[countPoly2]);
+      viewer.entities.removeById("Line"+[countPoly2]);
+      viewer.entities.removeById("centroidId"+[countPoly2]);
+    } 
+    viewer.entities.removeById("polylinId");
+    viewer.entities.removeById("LineId");
+
+
+    console.log("Success Clear All Polygon Line")
+   }
+
+ 
+   $(document).ready(function(){
+
+    var textarea_input = $("#show-file").val().match(/([N,S]\d{6}[E,W]\d{7}(\+))|([N,S]\d{6}[E,W]\d{7})/gm, ' ');
+    $('#Checkall').click(function(){
+      if (($("#site ")[0].selectedIndex <= 0)) {
+                    alert("Launchsite Not selected");
+                    {% comment %} $('#InvalidModal').modal('show'); {% endcomment %}
+                }
+        else  if (!$.trim($("#show-file").val())) {
+          alert("Wrong Wrong");
+      }
+      else if($("#show-file").val().match(/([N,S]\d{6}[E,W]\d{7}(\+))|([N,S]\d{6}[E,W]\d{7})/gm, ' ')) {
+            
+          console.log($("#show-file").val().match(/([N,S]\d{6}[E,W]\d{7}(\+))|([N,S]\d{6}[E,W]\d{7})/gm, ' '))
+          viewer.entities.removeById("circle_launcher");
+            InputTest();
+            document.getElementById("input-file-now-custom-2").value = "";
+
+
+            var showcir = viewer.entities.add({
+              id:"circle_launcher",
+              parent:G_FModel,
+              position: Cesium.Cartesian3.fromDegrees(Launcher_to_animation[0], Launcher_to_animation[1], 0),
+              label: {
+                text: Launcher_to_animation[2],
+                font: '10pt Montserrat',
+                style: Cesium.LabelStyle.FILL_AND_OUTLINE,
+                showBackground: true,
+                outlineWidth: 2,
+                verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
+                pixelOffset: new Cesium.Cartesian2(0, -50),
+                scaleByDistance: new Cesium.NearFarScalar(1.5e2, 2.0, 1.5e7, 0.5),
+                
+                }, 
+              ellipse: {
+                semiMinorAxis: 80000.0,
+                semiMajorAxis: 80000.0,
+                material: Cesium.Color.RED.withAlpha(0.5),
+                outline: true, // height must be set for outline to display
+                outlineWidth: 10,
+                outlineColor: Cesium.Color.BLACK,
+                
+              },
+              zIndex:50,
+            });
+            
+
+              viewer.flyTo(showcir, {
+                duration: 4.0,
+                offset: new Cesium.HeadingPitchRange(Cesium.Math.toRadians(90), Cesium.Math.toRadians(-25), 88000),
+            });
+
+            
+            }else{
+              alert("Wrong Ans. 555 Try again.");
+            }
+
+  });
+
+
+});
+
+  function get_launchsite() {
+    temp_location_launchsite = [];
+    Launcher_to_animation = [];
+    var name_select_input = document.getElementById('site').value;
+   
+  
+      var temp_data_launchsite = [];
+
+      {% comment %} {% for i in data %}
+       temp_data_launchsite.push(["{{i.1}}",{{i.3}},{{i.4}}]) ;
+      {% endfor %} {% endcomment %}
+      
+      for (let n = 0; n < launch_site_position.length; n++) {
+        temp_data_launchsite.push([launch_site_position[n][2],launch_site_position[n][0],launch_site_position[n][1]]) ;
+      }
+      
+      
+        {% comment %} {% for i in data %}
+        if(name_select_input === "{{i.1}}"){
+          temp_location_launchsite.push({{i.4}},{{i.3}});
+          console.log("ADD 【{{i.1}}】: "+ temp_location_launchsite);
+        }
+        {% endfor %} {% endcomment %}
+  
+        for (let i = 0; i < launch_site_position.length; i++) {
+          if(name_select_input === launch_site_position[i][2]){
+            temp_location_launchsite.push(launch_site_position[i][1],launch_site_position[i][0]);
+            Launcher_to_animation.push(launch_site_position[i][1],launch_site_position[i][0],launch_site_position[i][2]);
+            console.log("ADD 【"+launch_site_position[i][2]+"】: "+ temp_location_launchsite);
+          }
+        }
+        
+
+  }
+  
+  
+  var to_centroid = [];
+  var temp_to_centroid = [];
+  var to_centroid_list = [];
+
+  function UnitTestfunction(){
+
+    
+    temp_to_centroid=[];
+    Centroid_to_animation = [];
+    {% comment %} console.log("TEMP MEE MAI : "+ temp_to_centroid ) {% endcomment %}
+   for(let a = 0; a<sum_global_coordinate.length; a++){
+    
+    to_centroid = [];
+    to_centroid_list = [];
+    
+
+      for(let b = 0 ; b < sum_global_coordinate[a].length/2; b++){
+        to_centroid.push([sum_global_coordinate[a][b*2],sum_global_coordinate[a][(b*2)+1]])
+      }
+     
+    to_centroid_list = find_Centroid(to_centroid)
+
+    temp_to_centroid.push(to_centroid_list)
+    Centroid_to_animation.push(find_Centroid(to_centroid))
+     
+    } 
+   
+    Destination_to_animation.push(to_centroid_list[0],to_centroid_list[1]);
+    console.log(temp_to_centroid)
+    console.log(to_centroid_list)
+    
+    for (let c = 0 ; c < temp_to_centroid.length ; c++){
+      console.log(temp_to_centroid[c])
+    }
+
+
+    sum_global_coordinate = [];
+
+
+    clearfunction()
+    destination_coordinate = find_Centroid(to_centroid)
+    
+    temp_r_count = Math.floor(Math.random() * 10000) + 1;
+
+    var zeroHeight = 0.0;
+    var startHeight = 35000.0;
+    var endHeight = 200000.0;
+
+    const polyLinePlot= viewer.entities.add({
+      name : "Line to M.",
+      id : 'LineId',
+      position : Cesium.Cartesian3.fromDegrees(temp_location_launchsite[0], temp_location_launchsite[1], startHeight),
+      polyline : {
+          positions: [
+              Cesium.Cartesian3.fromDegrees(temp_location_launchsite[0], temp_location_launchsite[1], zeroHeight),
+              Cesium.Cartesian3.fromDegrees(temp_location_launchsite[0], temp_location_launchsite[1], startHeight)
+          ],
+          width : new Cesium.ConstantProperty(2),
+          material : Cesium.Color.RED,
+          followSurface : new Cesium.ConstantProperty(false)
+      }
+  });
+    
+    var polyLineDistance2 = viewer.entities.add({
+      name: "Polyline A to B",
+      id: "polylinId",
+      polyline: {
+        positions: Cesium.Cartesian3.fromDegreesArrayHeights([destination_coordinate[0], destination_coordinate[1],endHeight,temp_location_launchsite[0],temp_location_launchsite[1],startHeight]),
+        
+        material : Cesium.Color.RED,
+        width: 3,
+      },
+    });  
+  
+
+    for (let d = 0 ; d < temp_to_centroid.length ; d++){
+
+      var pointCentroid = viewer.entities.add({
+        name : "CENTROID.",
+        id: "centroidId"+[d],
+        position: Cesium.Cartesian3.fromDegrees(temp_to_centroid[d][0], temp_to_centroid[d][1]),
+        point: {
+          show: true, // default
+          color: Cesium.Color.BLACK, 
+          pixelSize: 3, 
+          outlineColor: Cesium.Color.RED, 
+          outlineWidth: 2, 
+          
+        },
+        zIndex: 50 ,
+      });
+
+      pointCentroid.label= new Cesium.LabelGraphics({
+        position : Cesium.Cartesian3.fromDegrees(temp_to_centroid[d][0], temp_to_centroid[d][1]),
+        text : "RISK AREA: "+[d+1],
+        font: '10pt Montserrat',
+          style: Cesium.LabelStyle.FILL_AND_OUTLINE,
+          outlineWidth: 1,
+          verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
+          pixelOffset: new Cesium.Cartesian2(0, -50),
+          outlineColor: Cesium.Color.BLACK, 
+          outlineWidth: 3, 
+          showBackground: true,
+          zIndex:5,
+
+
+    });
+      
+    }
+    
+   
+  }
+
+  function InputTest(){
+    NOTAM_Optimize()
+    UnitTestfunction()
+    $( "#Showanimation" ).attr( "disabled", false );
+    
+    
+  }
+
+  function setDefaultValues(){
+    var t=3
+    {% comment %} viewer.camera.flyTo({
+      destination : Cesium.Cartesian3.fromDegrees(46.3+t,48.6-t,500000), 
+      orientation : {
+        heading : Cesium.Math.toRadians(0.0),
+        pitch : Cesium.Math.toRadians(-25.0),
+      }
+
+    }); {% endcomment %}
+    viewer.zoomTo(
+      viewer.entities,
+      new Cesium.HeadingPitchRange(
+        Cesium.Math.toRadians(90),
+        Cesium.Math.toRadians(0),
+        8500
+      )
+    );
+
+
+  }
+
+
+  // Javascript implementation of the approach
+
+   
+  function find_Centroid(polygon_list){
+      let ans = new Array(2);
+      ans.fill(0);
+         
+      let n = polygon_list.length;
+      let signedArea = 0;
+         
+      // For all vertices
+      for (let i = 0; i < n; i++)
+      {
+             
+          let x0 = polygon_list[i][0], y0 = polygon_list[i][1];
+          let x1 = polygon_list[(i + 1) % n][0], y1 = polygon_list[(i + 1) % n][1];
+                                 
+          // Calculate value of A
+          // using shoelace formula
+          let A = (x0 * y1) - (x1 * y0);
+          signedArea += A;
+             
+          // Calculating coordinates of
+          // centroid of polygon
+          ans[0] += (x0 + x1) * A;
+          ans[1] += (y0 + y1) * A;
+      }
+     
+      signedArea *= 0.5;
+      ans[0] = (ans[0]) / (6 * signedArea);
+      ans[1]= (ans[1]) / (6 * signedArea);
+     
+      return ans;
+  }
+   
+  // Coordinate of the vertices
+
+
+</script>
+<script> 
+ $("#menu__toggle2").click();
+
+ var flightData1 = []
+ var flightData2 = []
+ var flightData3 = []
+ var entityPosition = []
+
+ var Launcher = []
+ var Destination = []
+
+ var list_origin = []
+ var list_radius = []
+ var list_centroid = []
+
+
+ function Showmainmenufunction(){
+  $( "#Checkall" ).attr( "disabled", false );
+  $( "#Showanimation" ).attr( "disabled", true );
+  viewer.entities.removeAll();
+  
+  DrawModel();
+
+  viewer.camera.flyTo({
+    destination: Cesium.Cartesian3.fromDegrees(100.524123499999, 13.7278956, 8500000.0),
+  });
+
+
+  flightData1 = []
+  flightData2 = []
+  flightData3 = []
+  entityPosition = []
+ Launcher = []
+ Destination = []
+ 
+  Centroid_to_animation = []
+  Launcher_to_animation=[]
+  Destination_to_animation=[]
+  Sum_Coordinate_to_animation=[]
+  
+  list_origin = []
+  list_radius = []
+  list_centroid = []
+
+  console.log("--------SEND TO MAINMENU--------")
+      console.log(Centroid_to_animation)
+      console.log(Launcher_to_animation)
+      console.log(Destination_to_animation)
+ }
+
+
+ const TH_PROV_DATA = [
+ [1, "กรุงเทพมหานคร", "Krung Thep Maha Nakhon (Bangkok)", 13.7278956, 100.524123499999],
+ [2, "กระบี่", "Krabi ", 8.0862997, 98.9062834999999],
+ [3, "กาญจนบุรี", "Kanchanaburi ", 14.0227797, 99.5328114999999],
+ [4, "กาฬสินธุ์", "Kalasin ", 16.4314078, 103.5058755],
+ [5, "กำแพงเพชร", "Kamphaeng Phet ", 16.4827798, 99.5226617999999],
+ [6, "ขอนแก่น", "Khon Kaen ", 16.4419355, 102.8359921],
+ [7, "จันทบุรี", "Chanthaburi ", 12.61134, 102.103854599999],
+ [8, "ฉะเชิงเทรา", "Chachoengsao ", 13.6904194, 101.077959599999],
+ [9, "ชลบุรี", "Chonburi ", 13.3611431, 100.9846717],
+ [10, "ชัยนาท", "Chainat ", 15.1851971, 100.125125],
+ [11, "ชัยภูมิ", "Chaiyaphum ", 15.8068173, 102.0315027],
+ [12, "ชุมพร", "Chumphon ", 10.4930496, 99.1800198999999],
+ [13, "เชียงราย", "Chiang Rai ", 19.9071656, 99.830955],
+ [14, "เชียงใหม่", "Chiang Mai ", 18.7877477, 98.9931311],
+ [15, "ตรัง", "Trang ", 7.5593851, 99.6110065],
+ [16, "ตราด", "Trat ", 12.2427563, 102.517473399999],
+ [17, "ตาก", "Tak ", 16.8839901, 99.1258497999999],
+ [18, "นครนายก", "Nakhon Nayok ", 14.2069466, 101.2130511],
+ [19, "นครปฐม", "Nakhon Pathom ", 13.8199206, 100.0621676],
+ [20, "นครพนม", "Nakhon Phanom ", 17.392039, 104.769550799999],
+ [21, "นครราชสีมา", "Nakhon Ratchasima ", 14.9798997, 102.097769299999],
+ [22, "นครศรีธรรมราช", "Nakhon Si Thammarat ", 8.4303975, 99.9631219],
+ [23, "นครสวรรค์", "Nakhon Sawan ", 15.6930072, 100.122559499999],
+ [24, "นนทบุรี", "Nonthaburi ", 13.8621125, 100.514352799999],
+ [25, "นราธิวาส", "Narathiwat ", 6.4254607, 101.825314299999],
+ [26, "น่าน", "Nan ", 18.7756318, 100.7730417],
+ [27, "บึงกาฬ", "Bueng Kan ", 18.3609104, 103.646446299999],
+ [28, "บุรีรัมย์", "Buriram ", 14.9930017, 103.1029191],
+ [29, "ปทุมธานี", "Pathum Thani ", 14.0208391, 100.525027599999],
+ [30, "ประจวบคีรีขันธ์", "Prachuap Khiri Khan ", 11.812367, 99.7973270999999],
+ [31, "ปราจีนบุรี", "Prachinburi ", 14.0509704, 101.372743899999],
+ [32, "ปัตตานี", "Pattani ", 6.86948439999999, 101.250482599999],
+ [33, "พระนครศรีอยุธยา", "Phra Nakhon Si Ayutthaya ", 14.3532128, 100.568959899999],
+ [34, "พะเยา", "Phayao ", 19.1664789, 99.9019419],
+ [35, "พังงา", "Phang Nga ", 8.4407456, 98.5193031999999],
+ [36, "พัทลุง", "Phatthalung ", 7.6166823, 100.074023099999],
+ [37, "พิจิตร", "Phichit ", 16.4429516, 100.348232899999],
+ [38, "พิษณุโลก", "Phitsanulok ", 16.8298048, 100.2614915],
+ [39, "เพชรบุรี", "Phetchaburi ", 13.1111601, 99.9391306999999],
+ [40, "เพชรบูรณ์", "Phetchabun ", 16.4189807, 101.155092599999],
+ [41, "แพร่", "Phrae ", 18.1445774, 100.1402831],
+ [42, "ภูเก็ต", "Phuket ", 7.9810496, 98.3638823999999],
+ [43, "มหาสารคาม", "Maha Sarakham ", 16.1850896, 103.302646099999],
+ [44, "มุกดาหาร", "Mukdahan ", 16.542443, 104.720915099999],
+ [45, "แม่ฮ่องสอน", "Mae Hong Son ", 19.2990643, 97.9656225999999],
+ [46, "ยโสธร", "Yasothon ", 15.792641, 104.1452827],
+ [47, "ยะลา", "Yala ", 6.541147, 101.280394699999],
+ [48, "ร้อยเอ็ด", "Roi Et ", 16.0538196, 103.652003599999],
+ [49, "ระนอง", "Ranong ", 9.9528702, 98.6084640999999],
+ [50, "ระยอง", "Rayong ", 12.6833115, 101.237429499999],
+ [51, "ราชบุรี", "Ratchaburi ", 13.5282893, 99.8134211],
+ [52, "ลพบุรี", "Lopburi ", 14.7995081, 100.6533706],
+ [53, "ลำปาง", "Lampang ", 18.2888404, 99.4908739999999],
+ [54, "ลำพูน", "Lamphun ", 18.5744606, 99.0087221],
+ [55, "เลย", "Loei ", 17.4860232, 101.7223002],
+ [56, "ศรีสะเกษ", "Sisaket ", 15.1186009, 104.322009499999],
+ [57, "สกลนคร", "Sakon Nakhon ", 17.1545995, 104.1348365],
+ [58, "สงขลา", "Songkhla ", 7.1756004, 100.614346999999],
+ [59, "สตูล", "Satun ", 6.6238158, 100.0673744],
+ [60, "สมุทรปราการ", "Samut Prakan ", 13.5990961, 100.5998319],
+ [61, "สมุทรสงคราม", "Samut Songkhram ", 13.4098217, 100.0022645],
+ [62, "สมุทรสาคร", "Samut Sakhon ", 13.5475216, 100.274395599999],
+ [63, "สระแก้ว", "Sa Kaeo ", 13.824038, 102.0645839],
+ [64, "สระบุรี", "Saraburi ", 14.5289154, 100.9101421],
+ [65, "สิงห์บุรี", "Sing Buri ", 14.8936253, 100.3967314],
+ [66, "สุโขทัย", "Sukhothai ", 17.0055573, 99.8263712],
+ [67, "สุพรรณบุรี", "Suphan Buri ", 14.4744892, 100.117712799999],
+ [68, "สุราษฎร์ธานี", "Surat Thani ", 9.1382389, 99.3217482999999],
+ [69, "สุรินทร์", "Surin ", 14.882905, 103.4937107],
+ [70, "หนองคาย", "Nong Khai ", 17.8782803, 102.7412638],
+ [71, "หนองบัวลำภู", "Nong Bua Lamphu ", 17.2218247, 102.4260368],
+ [72, "อ่างทอง", "Ang Thong ", 14.5896054, 100.455052],
+ [73, "อำนาจเจริญ", "Amnat Charoen ", 15.8656783, 104.6257774],
+ [74, "อุดรธานี", "Udon Thani ", 17.4138413, 102.7872325],
+ [75, "อุตรดิตถ์", "Uttaradit ", 17.6200886, 100.0992942],
+ [76, "อุทัยธานี", "Uthai Thani ", 15.3835001, 100.024552699999],
+ [77, "อุบลราชธานี", "Ubon Ratchathani ", 15.2286861, 104.8564217],
+ 
+ ]
+ 
+ 
+
+function Showsimulationfunction(){
+  get_launchsite()
+    $( "#Checkall" ).attr( "disabled", true );
+    $( "#Showanimation" ).attr( "disabled", true );
+    $( "#B_Speed" ).attr( "disabled", false );
+    $( "#B_Slow" ).attr( "disabled", false );
+  
+    {% comment %} $("#menu__toggle").click(); {% endcomment %}
+  
+
+  
+    viewer.entities.removeAll();
+  
+
+
+      console.log("--------SEND TO ANIMATION--------")
+      console.log(Centroid_to_animation)
+      console.log(Launcher_to_animation)
+      console.log(Destination_to_animation)
+      console.log(Sum_Coordinate_to_animation)
+      
+
+    
+
+      const positionProperty = new Cesium.SampledPositionProperty();
+
+      flightData1 = []
+      flightData2 = []
+      flightData3 = []
+
+      // ----------------------------------------------------------------------------------------
+      // Globe Rotation
+      // ----------------------------------------------------------------------------------------
+      // var real_speed = -0.0025
+      // var rotatioSpeed;
+      // var lastNow;
+
+      // function spinIt(scene, time) {
+      //      var now = Date.now();            
+      //      var spinRate = rotatioSpeed*viewer.clockViewModel.multiplier;
+      //      var delta = (now - lastNow) / 10000;
+      //      lastNow = now;
+      //      viewer.scene.camera.rotate(Cesium.Cartesian3.UNIT_Z, spinRate * delta);
+      // }
+      // function spinGlobe(viewer) {
+      //      lastNow = Date.now();
+      //      viewer.scene.postRender.addEventListener(spinIt);
+      // }
+
+      // function map(x, in_min, in_max, out_min, out_max) {
+      //      return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
+      // }
+
+      // rotatioSpeed = real_speed;
+      // spinGlobe(viewer);
+      // ----------------------------------------------------------------------------------------
+      // ----------------------------------------------------------------------------------------
+
+
+        for (let c_polygon = 0; c_polygon <Sum_Coordinate_to_animation.length; c_polygon++) {
+          entitiesR.add({
+            parent: testPolygon,
+            name: "Red Red RUN!! No." +[c_polygon+1],
+            polygon: {
+              hierarchy: Cesium.Cartesian3.fromDegreesArray(Sum_Coordinate_to_animation[c_polygon]),
+              material: Cesium.Color.RED.withAlpha(0.5),
+              height: 0.0,
+              outline: true,
+              outlineWidth: 50,
+              outlineColor: Cesium.Color.RED,
+            },
+            zIndex: 100,
+          });
+
+        }
+
+        var CircleLauncher_animation = viewer.entities.add({
+          id:"circle_launcher",
+          position: Cesium.Cartesian3.fromDegrees(Launcher_to_animation[0], Launcher_to_animation[1], 0),
+          label: {
+             text:Launcher_to_animation[2],
+              show: true,
+              font: '10pt Montserrat',
+              style: Cesium.LabelStyle.FILL_AND_OUTLINE,
+              outlineWidth: 1,
+              verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
+              pixelOffset: new Cesium.Cartesian2(0, -50),
+              outlineColor: Cesium.Color.BLACK, 
+              outlineWidth: 3, 
+              showBackground: true,
+          },
+          ellipse: {
+            semiMinorAxis: 80000.0,
+            semiMajorAxis: 80000.0,
+            material: Cesium.Color.RED.withAlpha(0.5),
+            outline: true, // height must be set for outline to display
+            outlineWidth: 10,
+            outlineColor: Cesium.Color.BLACK,
+            
+          },
+        });
+
+        for (let i=0; i<TH_PROV_DATA.length; i++){
+
+          entitiesM.add({
+            position: Cesium.Cartesian3.fromDegrees(TH_PROV_DATA[i][4], TH_PROV_DATA[i][3]),
+            parent: G_Model,
+            point : {
+            color : Cesium.Color.WHITE,
+            pixelSize : 2,
+            heightReference : Cesium.HeightReference.RELATIVE_TO_GROUND,
+            scaleByDistance: new Cesium.NearFarScalar(1.5e2, 2.0, 1.5e7, 0.5),
+        },
+        label: {
+            text: TH_PROV_DATA[i][2],
+            font: "10px sans-serif",
+              outlineWidth: 3,
+              verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
+              pixelOffset: new Cesium.Cartesian2(0, -25),
+              outlineColor: Cesium.Color.BLACK, 
+              translucencyByDistance: new Cesium.NearFarScalar(
+                1.5e5,
+                1.0,
+                1.5e7,
+                0.0
+              ),
+          
+          
+        },
+        zIndex:50,
+  });
+}
+
+
+      entityPosition = []
+
+    Launcher = [Launcher_to_animation[0], Launcher_to_animation[1]]
+    Destination = [Destination_to_animation[0], Destination_to_animation[1]]
+
+
+
+      // function getDistanceFromLatLonInKm(point1, point2) {
+
+      //      const [lat1, lon1] = point1;
+      //      const [lat2, lon2] = point2;
+      //      const earthRadius = 6371;
+      //      const dLat = convertDegToRad(lat2 - lat1);
+      //      const dLon = convertDegToRad(lon2 - lon1);
+      //      const squarehalfChordLength =
+      //           Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      //           Math.cos(convertDegToRad(lat1)) * Math.cos(convertDegToRad(lat2)) *
+      //           Math.sin(dLon / 2) * Math.sin(dLon / 2);
+
+      //      const angularDistance = 2 * Math.atan2(Math.sqrt(squarehalfChordLength), Math.sqrt(1 - squarehalfChordLength));
+      //      const distance = earthRadius * angularDistance;
+      //      return distance;
+
+      // }
+
+      // console.log(getDistanceFromLatLonInKm([13.5993,100.5968],[9.1401,99.3331]))
+
+
+      // https://stackoverflow.com/questions/42842607/cesiumjs-points-and-css-keyframe-animation << ANIMEEEEEEEEEEEEEEEEEEEEEEEEEEEEEETIONNNNNNNNNNNNNNNNNNNNNNNNNNNNN
+
+
+      // const d = Cesium.Cartesian3.distance(new Cesium.Cartesian3(10470653.662, 15980600.791, 0.0), new Cesium.Cartesian3(11468313.524, 16934908.695, 0.0));
+      const c = Cesium.Cartesian3.distance(new Cesium.Cartesian3.fromDegrees(83.23961333333331, 12.639053333333319, 0), new Cesium.Cartesian3.fromDegrees(83.23961333333331, 12.639053333333319, 108000)) / 1000;
+      const d = Cesium.Cartesian3.distance(new Cesium.Cartesian3.fromDegrees(Launcher[1], Launcher[0], 0), new Cesium.Cartesian3.fromDegrees(83.23961333333331, 12.639053333333319, 0)) / 1000;
+      // const d = Cesium.Cartesian3.distance(new Cesium.Cartesian3.fromDegrees(100.5968, 13.5993), new Cesium.Cartesian3.fromDegrees(100.9167, 14.5333))/1000;
+
+      console.log("H : " + c + " KM")
+      console.log("D : " + d + " KM")
+
+      // console.log(distance(13.5993, 100.5968, 9.1401, 99.3331, "K"))
+      // console.log(calculateDistance(13.5993, 100.5968, 9.1401, 99.3331))
+
+
+      function showWitget() {
+
+          viewer.baseLayerPicker.container.style.visibility = "visible";
+          // viewer.sceneModePicker.container.style.visibility = "visible";
+
+
+          viewer.animation.container.style.visibility = "visible";
+          viewer.timeline.container.style.visibility = "visible";
+      }
+
+
+      function hideWitget() {
+
+
+          viewer.baseLayerPicker.container.style.visibility = "hidden";
+          // viewer.sceneModePicker.container.style.visibility = "hidden";
+          viewer.animation.container.style.visibility = "hidden";
+          viewer.timeline.container.style.visibility = "hidden";
+
+      }
+
+      // Cesium.Viewer('cesiumContainer',{timeline: true,animation: true,});
+
+
+      async function loadModel() {
+
+          flightData1 = []
+          flightData2 = []
+          flightData3 = []
+
+
+
+          var temp_points = [];
+
+          Point = function (x, y, z) {
+                this.latitude = x;
+                this.longitude = y;
+                this.height = z;
+
+          }
+
+
+          var StartHeight = 45000.0
+          var EndHeight = 200000.0
+          var ContinuationHeight = 35000
+          // var GenHeight = [45000,44500,43000,41000,38500,35000]
+          // var GenHeight = [35000, 38500, 41000, 43000, 44290, 45000, 45000]
+          var GenHeight = [35000,38500, 40700, 43000, 43500, 44090]
+          // var GenHeightR = GenHeight.reverse()
+
+
+          var pointZ = new Point(Launcher[1], Launcher[0], ContinuationHeight);
+          var pointA = new Point(Launcher[1], Launcher[0], StartHeight);
+          var pointB = new Point(Destination[1], Destination[0], EndHeight);
+
+
+          var pointC = new Point(Launcher[1], Launcher[0], 0);
+          var pointD = new Point(Launcher[1], Launcher[0], 34900);
+
+
+          var numberOfPoints = 2500;
+          var numberOfPoints2 = 1000;
+
+
+          // https://x-engineer.org/linear-interpolation-extrapolation-calculator/
+
+
+          for (var i = 8; i < numberOfPoints-8; i++) {
+                flightData1.push(new Point(
+                    ((pointA.latitude - pointB.latitude) / numberOfPoints) * i + pointB.latitude,
+                    ((pointA.longitude - pointB.longitude) / numberOfPoints) * i + pointB.longitude,
+                    ((pointA.height - pointB.height) / numberOfPoints) * i + pointB.height));
+
+          }
+
+          
+          for (var i = 0; i < GenHeight.length; i++) {
+                flightData3.push(new Point(
+                    ((pointB.latitude - pointZ.latitude) / numberOfPoints) * i + pointZ.latitude,
+                    ((pointB.longitude - pointZ.longitude) / numberOfPoints) * i + pointZ.longitude,
+                    (GenHeight[i])));
+                
+          }
+
+          flightData3.reverse()
+
+
+          for (var i = 0; i < GenHeight.length; i++) {
+                flightData1.push(new Point(flightData3[i].latitude, flightData3[i].longitude, flightData3[i].height))
+
+          }
+
+          
+
+          for (var i = 0; i < numberOfPoints2; i++) {
+
+                flightData2.push(new Point(
+                    ((pointC.latitude - pointD.latitude) / numberOfPoints2) * i + pointD.latitude,
+                    ((pointC.longitude - pointD.longitude) / numberOfPoints2) * i + pointD.longitude,
+                    ((pointC.height - pointD.height) / numberOfPoints2) * i + pointD.height));
+
+                flightData1.push(new Point(flightData2[i].latitude, flightData2[i].longitude, flightData2[i].height))
+          }
+
+
+          console.log(flightData1);
+          console.log(flightData3);
+          console.log(flightData2);
+
+
+          var timeStepInSeconds = 1;
+          const totalSeconds = timeStepInSeconds * (flightData1.length - 1);
+          const currentTime = Cesium.JulianDate.now();
+          const start = Cesium.JulianDate.now();
+          const stop = Cesium.JulianDate.addSeconds(start, totalSeconds, new Cesium.JulianDate());
+
+          viewer.clock.currentTime = currentTime;
+          viewer.clock.startTime = start.clone();
+          viewer.clock.stopTime = stop.clone();
+          viewer.timeline.zoomTo(start, stop);
+
+          // Speed up the playback speed 120x.
+          viewer.clock.multiplier = 80;
+          // Start playing the scene.
+          viewer.clock.shouldAnimate = true;
+
+
+          const airplaneUri1 = await Cesium.IonResource.fromAssetId(1165688);
+          const airplaneEntity = viewer.entities.add({
+                name: "ROCKET RUN RAN RUN",
+                description: `Location: (${positionProperty})`,
+                label: {
+                  text:"SIRACE ROCKET",
+                    show: true,
+                    font: '10pt Montserrat',
+                    style: Cesium.LabelStyle.FILL_AND_OUTLINE,
+                    outlineWidth: 1,
+                    verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
+                    pixelOffset: new Cesium.Cartesian2(0, -50),
+                    outlineColor: Cesium.Color.BLACK, 
+                    outlineWidth: 3, 
+                    showBackground: true,
+                },
+                availability: new Cesium.TimeIntervalCollection([new Cesium.TimeInterval({ start: start, stop: stop })]),
+                position: positionProperty,
+                model: { uri: airplaneUri1, minimumPixelSize: 80, maximumPixelSize: 80 },
+                orientation: new Cesium.VelocityOrientationProperty(positionProperty),
+                path: new Cesium.PathGraphics({ width: 2, color: Cesium.Color.RED })
+                
+          });
+
+
+          viewer.trackedEntity = airplaneEntity;
+
+
+          viewer.camera.zoomIn(50);
+
+
+          flightData1 = flightData1.reverse();
+          for (let i = 0; i < flightData1.length; i++) {
+                let dataPoint = flightData1[i]
+                const time = Cesium.JulianDate.addSeconds(start, i * timeStepInSeconds, new Cesium.JulianDate());
+                // const time2 = Cesium.JulianDate.addSeconds(start2, i * timeStepInSeconds, new Cesium.JulianDate());
+
+
+                const position = Cesium.Cartesian3.fromDegrees(dataPoint.longitude, dataPoint.latitude, dataPoint.height);
+                // console.log(position)
+
+                positionProperty.addSample(time, position);
+
+                entityPosition.push({
+                    lat: dataPoint.latitude,
+                    long: dataPoint.longitude,
+                    alt: dataPoint.height,
+                    ti: time,
+                });
+                // console.log(entityPosition[i])
+
+
+          }
+
+
+          display()
+
+      };
+
+      loadModel()
+
+      var realr = 0
+      var int = setInterval(display, 50)
+      var origin = { x: 0, y: 0, z: 0 }
+      var originx = 0
+      var originy = 0
+      var originz = 0
+      var count_centriod = 0
+
+
+      var cen = Centroid_to_animation.map(function(x) {
+        return {    
+            "latitude": x[1],
+            "longitude": x[0],
+            "height": 0,
+        }
+    })
+    console.log(cen)
+
+      list_origin = []
+      list_radius = []
+      list_centroid = []
+
+    
+      for (let i = 0; i < cen.length; i++) {
+        var cent_point = viewer.entities.add({
+                position: Cesium.Cartesian3.fromDegrees(cen[i].longitude, cen[i].latitude, 0),
+                point: {
+                    pixelSize: 10,
+                    color: Cesium.Color.BLACK, 
+                pixelSize: 3, 
+                outlineColor: Cesium.Color.RED, 
+                outlineWidth: 2, 
+                    
+                },
+                zIndex:57,
+          });
+
+          cent_point.label= new Cesium.LabelGraphics({
+            position : Cesium.Cartesian3.fromDegrees(cen[i].longitude, cen[i].latitude, 0),
+            text : "RISK AREA: "+[i+1],
+            font: '10pt Montserrat',
+              style: Cesium.LabelStyle.FILL_AND_OUTLINE,
+              outlineWidth: 1,
+              verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
+              pixelOffset: new Cesium.Cartesian2(0, -50),
+              outlineColor: Cesium.Color.BLACK, 
+              outlineWidth: 3, 
+              showBackground: true,
+              zIndex:60,
+    
+    
+        });
+
+      }
+
+
+      var preValue = 0
+      function display() {
+
+
+          var searchObj = entityPosition.find((e) => parseInt(e.ti.secondsOfDay) > parseInt(viewer.clock.currentTime.secondsOfDay) && e.ti.dayNumber === viewer.clock.currentTime.dayNumber);
+          //console.log(searchObj)
+          // console.log(parseInt(viewer.clock.currentTime.secondsOfDay))
+
+          // console.log(searchObj)
+          // if (parseInt(viewer.clock.currentTime.secondsOfDay) > )
+
+          if ((searchObj !== undefined) && searchObj !== preValue) {
+                preValue = searchObj
+                {% comment %} const ppoint = viewer.entities.add({
+                    name: "ALT : " + searchObj.alt,
+                    position: Cesium.Cartesian3.fromDegrees(searchObj.long, searchObj.lat, 0.0),
+                    point: {
+                          pixelSize: 3,
+                          color: Cesium.Color.YELLOW,
+                    },
+                }); {% endcomment %}
+                if (count_centriod < cen.length) {
+                    //console.log("Distance : " + ddistance_max + " Height : " + hheight_max + " Width : " + wwidth_max + " Diff : " + diff_distance)
+                    let rx = Cesium.Cartesian3.distance(Cesium.Cartesian3.fromDegrees(searchObj.long, searchObj.lat, 0), Cesium.Cartesian3.fromDegrees(cen[count_centriod].longitude, cen[count_centriod].latitude, 0))
+                    let ry = Cesium.Cartesian3.distance(Cesium.Cartesian3.fromDegrees(searchObj.long, searchObj.lat, searchObj.alt), Cesium.Cartesian3.fromDegrees(searchObj.long, searchObj.lat, 0))
+                    // console.log(ry)
+                    //console.log(rx)
+                    //console.log(rx-ry)
+
+                    if (rx - ry <= 0) {
+                          console.log("FOUND")
+                          realr = rx
+                          //console.log(realr)
+                          list_radius.push(rx)
+                          //console.log(rx)
+                          //console.log(ry)
+                          origin = Cesium.Cartesian3.fromDegrees(searchObj.long, searchObj.lat, 0)
+                          originx = searchObj.lat
+                          originy = searchObj.long
+
+
+                          {% comment %} const redLine = viewer.entities.add({
+                              name: "Red line on terrain",
+                              polyline: {
+                                    positions: Cesium.Cartesian3.fromDegreesArrayHeights([searchObj.long, searchObj.lat, 0, searchObj.long, searchObj.lat, searchObj.alt]),
+                                    width: 2,
+                                    material: Cesium.Color.RED,
+                              },
+                          }); {% endcomment %}
+
+                          list_origin.push({ x: origin.x, y: origin.y, z: origin.z })
+                          list_centroid.push({ lat: cen[count_centriod].latitude, lon: cen[count_centriod].longitude, alt: 0 })
+                          // console.log(list_origin)
+                          // console.log(list_centroid)
+                          count_centriod += 1
+                          console.log(count_centriod)
+
+                    }
+
+                }
+    
+                if (list_origin.length != 0) {
+                    for (let i = 0; i < list_origin.length; i++) {
+                            let current_rx = Cesium.Cartesian3.distance(Cesium.Cartesian3.fromDegrees(searchObj.long, searchObj.lat, 0), Cesium.Cartesian3.fromDegrees(list_centroid[i].lon, list_centroid[i].lat, 0))
+                            //console.log(current_rx)
+                            //console.log(list_radius[i])
+                            let refer = Cesium.Cartesian3.fromDegrees(searchObj.long, searchObj.lat, 0)
+
+                            var dis_real_alt = Cesium.Cartesian3.distance(Cesium.Cartesian3.fromDegrees(searchObj.long, searchObj.lat, searchObj.alt), Cesium.Cartesian3.fromDegrees(searchObj.long, searchObj.lat, altitude))
+                            var altitude = Math.sqrt(Math.pow(list_radius[i], 2) - Math.pow(refer.x - list_origin[i].x, 2) - Math.pow(refer.y - list_origin[i].y, 2) - Math.pow(refer.z - list_origin[i].z, 2))
+                            //     let altitude = list_radius[i] - refer.x - list_origin[i].x - refer.y - list_origin[i].y
+
+                            //     var set_true_value_alt = searchObj.alt - altitude
+                            //     altitude = Math.sqrt(Math.pow(list_radius[i],2) - Math.pow(refer.x - list_origin[i].x,2) - Math.pow(refer.y - list_origin[i].y,2)) + set_true_value_alt
+                           
+                            //console.log(searchObj.alt)
+                            //console.log(altitude)
+
+                            // console.log(dis_real_alt)
+
+                            // if ((searchObj.alt - altitude) != 0) {
+
+                            viewer.entities.add({
+                                name: altitude,
+                                position: Cesium.Cartesian3.fromDegrees(searchObj.long, searchObj.lat, altitude),
+                                point: {
+                                      pixelSize: 5,
+                                      color: Cesium.Color.GOLD,
+                                },
+                            });
+
+
+                            // let mmm = Cesium.Cartesian3.fromDegrees(searchObj.long, searchObj.lat, altitude)
+                            // console.log(mmm)
+                            // viewer.entities.add({
+                            //      name: altitude,
+                            //      position: Cesium.Cartesian3(mmm.y,mmm.x,mmm.z),
+                            //      point: {
+                            //           pixelSize: 5,
+                            //           color: Cesium.Color.GREEN,
+                            //      },
+                            // });
+
+                            // }
+
+                            if (current_rx == 0) {
+                                console.log("End")
+                                list_radius.shift()
+                                list_centroid.shift()
+                                list_origin.shift()
+
+                                console.log(list_radius)
+                                console.log(list_centroid)
+                                console.log(list_origin)
+                                
+                            }
+
+
+                          }
+ 
+                      }
+
+          }
+
+
+      }
+}
+
+Cesium.knockout.getObservable(viewer.clockViewModel,
+'shouldAnimate').subscribe(function (isAnimating) {
+    if (isAnimating) {
+        console.log('Cesium clock is animating.');
+    } else {
+        console.log('Cesium clock is paused.');
+    }
+});
+
+
+
+function playTime() {
+viewer.clockViewModel.shouldAnimate = true;
+$( "#B_Speed" ).attr( "disabled", false );
+$( "#B_Slow" ).attr( "disabled", false );
+}
+
+
+function pauseTime() {
+viewer.clockViewModel.shouldAnimate = false;
+$( "#B_Speed" ).attr( "disabled", true );
+$( "#B_Slow" ).attr( "disabled", true );
+}
+
+function resetTime() {
+$( "#B_Speed" ).attr( "disabled", false );
+$( "#B_Slow" ).attr( "disabled", false );
+  viewer.clockViewModel.shouldAnimate = false;
+  viewer.entities.removeAll();
+  Showsimulationfunction();
+
+
+  
+  }
+
+function Slow() {
+viewer.clockViewModel.multiplier /= 1.1;
+};
+
+function Speed() {
+viewer.clockViewModel.multiplier *= 1.1;
+};
+
+
+
+
+for (let i=0; i<TH_PROV_DATA.length; i++){
+
+  entitiesM.add({
+            position: Cesium.Cartesian3.fromDegrees(TH_PROV_DATA[i][4], TH_PROV_DATA[i][3]),
+            parent: G_Model,
+            point : {
+            color : Cesium.Color.WHITE,
+            pixelSize : 2,
+            heightReference : Cesium.HeightReference.RELATIVE_TO_GROUND,
+            scaleByDistance: new Cesium.NearFarScalar(1.5e2, 2.0, 1.5e7, 0.5),
+        },
+        label: {
+            text: TH_PROV_DATA[i][2],
+            font: "10px sans-serif",
+              outlineWidth: 3,
+              verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
+              pixelOffset: new Cesium.Cartesian2(0, -25),
+              outlineColor: Cesium.Color.BLACK, 
+              translucencyByDistance: new Cesium.NearFarScalar(
+                1.5e5,
+                1.0,
+                1.5e7,
+                0.0
+              ),
+          
+          
+        },
+        zIndex:50,
+  });
+  
+
+}
+
+
+$('#focushide').click(function() {
+ 
+  G_Model.show = !G_Model.show;
+  G_FModel.show = !G_FModel.show;
+
+});
+
+
+  
+$('#screenshot').click(function() {
+  viewer.render()
+
+
+  // configure settings
+
+  var targetResolutionScale = 1.0; // for screenshots with higher resolution set to 2.0 or even 3.0
+
+  var timeout = 10000; // in ms
+
+  var scene = viewer.scene;
+
+  if (!scene) {
+
+  console.error("No scene");
+
+  }
+  // define callback functions
+
+  var prepareScreenshot = function(){
+
+  var canvas = scene.canvas;
+
+  viewer.resolutionScale = targetResolutionScale;
+
+  scene.preRender.removeEventListener(prepareScreenshot);
+
+  // take snapshot after defined timeout to allow scene update (ie. loading data)
+
+  setTimeout(function(){
+
+  scene.postRender.addEventListener(takeScreenshot);
+
+  }, timeout);
+
+  }
+
+  var takeScreenshot = function(){
+
+  scene.postRender.removeEventListener(takeScreenshot);
+
+  var canvas = scene.canvas;
+
+  canvas.toBlob(function(blob){
+
+  var url = URL.createObjectURL(blob);
+
+  downloadURI(url, "snapshot-" + targetResolutionScale.toString() + ".png");
+
+  // reset resolutionScale
+
+  viewer.resolutionScale = 1.0;
+
+  });
+
+  }
+
+  scene.preRender.addEventListener(prepareScreenshot);
+
+  function downloadURI(uri, name) {
+
+  var link = document.createElement("a");
+
+  link.download = name;
+
+  link.href = uri;
+
+  // mimic click on “download button”
+
+  document.body.appendChild(link);
+
+  link.click();
+
+  document.body.removeChild(link);
+
+  delete link;
+
+  }
+ 
+
+
+});
+
+
+
+</script>
+
+
+{% comment %} Create By APIRAK OULIS 2022 {% endcomment %}
+
+
+
+</html>
+
+
+
+
+{% comment %} let div = document.getElementById('cesiumContainer');
+
+html2canvas(div, { allowTaint: true, 
+  scrollX:0, scrollY: -window.scrollY }).then(function(canvas) {
+    document.getElementById("canvas").remove();
+
+    canvas.style.height = '500px';
+    canvas.style.width = '500px';
+  document.getElementById('output').appendChild(canvas);
+
+
+
+
+});
+
+console.log("AP") {% endcomment %}
